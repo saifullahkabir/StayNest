@@ -17,11 +17,10 @@ const Navbar = () => {
             {/* Logo */}
             <Link to='/'>
               <img
-                // className='hidden md:block'
-                src='https://i.ibb.co/4ZXzmq5/logo.png'
+                className='W-[30px] h-[30px] lg:w-[200px] lg:h-[40px]'
+                src='https://i.ibb.co.com/cXF3xvYw/Adobe-Express-file.png'
                 alt='logo'
-                width='100'
-                height='100'
+                
               />
             </Link>
             {/* Dropdown Menu */}
@@ -41,18 +40,17 @@ const Navbar = () => {
                 {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
-                  className='p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
+                  className='px-2 py-1 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition'
                 >
                   <AiOutlineMenu />
-                  <div className='hidden md:block'>
+                  <div className=''>
                     {/* Avatar */}
                     <img
-                      className='rounded-full'
+                      className='rounded-full w-[30px] h-[30px]'
                       referrerPolicy='no-referrer'
                       src={user && user.photoURL ? user.photoURL : avatarImg}
                       alt='profile'
-                      height='30'
-                      width='30'
+                      
                     />
                   </div>
                 </div>
