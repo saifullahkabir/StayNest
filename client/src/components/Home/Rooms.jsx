@@ -5,18 +5,7 @@ import Heading from '../Shared/Heading'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const Rooms = () => {
-  const [rooms, setRooms] = useState([])
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setLoading(true)
-    fetch(`./rooms.json`)
-      .then(res => res.json())
-      .then(data => {
-        setRooms(data)
-        setLoading(false)
-      })
-  }, [])
+  const 
 
   if (loading) return <LoadingSpinner />
 
