@@ -3,11 +3,23 @@ import Card from './Card'
 import Container from '../Shared/Container'
 import Heading from '../Shared/Heading'
 import LoadingSpinner from '../Shared/LoadingSpinner'
+import useAxiosPublic from '../../hooks/useAxiosPublic'
+import { useQuery } from '@tanstack/react-query'
 
 const Rooms = () => {
-  const 
+  const axiosPublic = useAxiosPublic();
 
-  if (loading) return <LoadingSpinner />
+  const { data: rooms = [], isLoading } = useQuery({
+    queryKey: ['rooms'],
+    queryFn: async () => {
+      const { data } = await axiosPublic.get(`/rooms`);
+      return data || [];
+    }
+  })
+  console.log(rooms, 'rooms data');
+
+
+  if (isLoading) return <LoadingSpinner />
 
   return (
     <Container>
