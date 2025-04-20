@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import toast from 'react-hot-toast';
@@ -6,6 +6,7 @@ import axios from 'axios';
 
 const SignUp = () => {
   const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignUp = async e => {
     e.preventDefault();
@@ -21,11 +22,19 @@ const SignUp = () => {
       const { data } = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
         formData
       )
-      console.log(data);
-      console.log(formData, 'formdata');
+    
+      // 2.User registration
+      const result = await createUser(email, password);
+      console.log(result);
+
+      // 3. save user name and photo in firebase
+      await updateUserProfile(name, data.data.display_url);
+      toast.success('SignUp Successfully!');
+      navigate('/');
+
     }
     catch (err) {
-      toast.error(err.code);
+      toast.error(err.message);
     }
 
   }
