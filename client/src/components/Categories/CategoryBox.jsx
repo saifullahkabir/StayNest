@@ -6,16 +6,19 @@ const CategoryBox = ({ label, icon: Icon }) => {
   // eslint-disable-next-line no-unused-vars
   const [params, setParams] = useSearchParams();
   const category = params.get('category');
-  
+
   const navigate = useNavigate();
 
   const handleClick = () => {
+    // 1. create query string
     let currentQuery = { category: label };
 
     const url = queryString.stringifyUrl({
       url: '/',
       query: currentQuery
     })
+
+    // 2. set query string in the url
     navigate(url);
   }
   return (
