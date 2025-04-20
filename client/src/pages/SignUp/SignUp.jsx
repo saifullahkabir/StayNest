@@ -3,9 +3,10 @@ import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import toast from 'react-hot-toast';
 import axios from 'axios';
+import { TbFidgetSpinner } from "react-icons/tb";
 
 const SignUp = () => {
-  const { createUser, signInWithGoogle, updateUserProfile } = useAuth();
+  const { createUser, signInWithGoogle, updateUserProfile, loading, setLoading } = useAuth();
   const navigate = useNavigate();
 
   const handleSignUp = async e => {
@@ -18,11 +19,12 @@ const SignUp = () => {
     const formData = new FormData();
     formData.append('image', image);
     try {
+      setLoading(true);
       // 1. Upload image and get image url
       const { data } = await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
         formData
       )
-    
+
       // 2.User registration
       const result = await createUser(email, password);
       console.log(result);
@@ -37,6 +39,19 @@ const SignUp = () => {
       toast.error(err.message);
     }
 
+  }
+
+  // handle google signIn
+  const handleGoogleSignInb = async () => {
+    try {
+      setLoading(true);
+      await signInWithGoogle();
+      toast.success('SignUp Successfully!');
+      navigate('/');
+    }
+    catch (err) {
+      toast.error(err.message);
+    }
   }
 
   return (
@@ -110,10 +125,11 @@ const SignUp = () => {
 
           <div>
             <button
+              disabled={loading}
               type='submit'
               className='bg-rose-500 w-full rounded-md py-3 text-white'
             >
-              Continue
+              {loading ? <TbFidgetSpinner className='animate-spin m-auto' /> : 'Continue'}
             </button>
           </div>
         </form>
@@ -124,11 +140,14 @@ const SignUp = () => {
           </p>
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
-        <div className='flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded cursor-pointer'>
+        <button
+          onClick={handleGoogleSignInb}
+          disabled={loading}
+          className='disabled:cursor-not-allowed cursor-pointer flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded'>
           <FcGoogle size={32} />
 
           <p>Continue with Google</p>
-        </div>
+        </button>
         <p className='px-6 text-sm text-center text-gray-400'>
           Already have an account?{' '}
           <Link
