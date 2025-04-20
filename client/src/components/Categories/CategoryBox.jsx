@@ -12,7 +12,6 @@ const CategoryBox = ({ label, icon: Icon }) => {
       url: '/',
       query: currentQuery
     })
-    console.log(url);
     navigate(url);
   }
   return (
