@@ -42,9 +42,8 @@ const SignUp = () => {
   }
 
   // handle google signIn
-  const handleGoogleSignInb = async () => {
+  const handleGoogleSignIn = async () => {
     try {
-      setLoading(true);
       await signInWithGoogle();
       toast.success('SignUp Successfully!');
       navigate('/');
@@ -141,7 +140,7 @@ const SignUp = () => {
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
         </div>
         <button
-          onClick={handleGoogleSignInb}
+          onClick={handleGoogleSignIn}
           disabled={loading}
           className='disabled:cursor-not-allowed cursor-pointer flex justify-center items-center space-x-2 border m-3 p-2 border-gray-300 border-rounded'>
           <FcGoogle size={32} />
