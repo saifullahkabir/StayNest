@@ -36,6 +36,7 @@ const Login = () => {
     }
     catch (err) {
       toast.error(err.code);
+      setLoading(false);
     }
   }
 
@@ -127,7 +128,7 @@ const Login = () => {
                   </label>
                   <input
                     type='email'
-                  disabled
+                    disabled
                     placeholder={email}
                     className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-rose-500 bg-gray-200 text-gray-900 placeholder:text-gray-800'
                     data-temp-mail-org='0'
@@ -135,7 +136,7 @@ const Login = () => {
                 </div>
                 <div>
                   <button
-                  onClick={handleResetPassword}
+                    onClick={handleResetPassword}
                     disabled={loading}
                     type='submit'
                     className='bg-rose-500 w-full rounded-md py-3 text-white'
@@ -146,9 +147,6 @@ const Login = () => {
               </div>
             </div>
           </dialog>
-          {/* <button onClick={handleResetPassword} className='text-xs hover:underline hover:text-rose-500 text-gray-400'>
-            Forgot password?
-          </button> */}
         </div>
         <div className='flex items-center pt-4 space-x-1'>
           <div className='flex-1 h-px sm:w-16 dark:bg-gray-700'></div>
