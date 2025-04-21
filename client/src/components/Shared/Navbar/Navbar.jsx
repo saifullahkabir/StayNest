@@ -20,7 +20,7 @@ const Navbar = () => {
                 className='W-[30px] h-[30px] lg:w-[200px] lg:h-[40px]'
                 src='https://i.ibb.co.com/cXF3xvYw/Adobe-Express-file.png'
                 alt='logo'
-                
+
               />
             </Link>
             {/* Dropdown Menu */}
@@ -50,7 +50,7 @@ const Navbar = () => {
                       referrerPolicy='no-referrer'
                       src={user && user.photoURL ? user.photoURL : avatarImg}
                       alt='profile'
-                      
+
                     />
                   </div>
                 </div>
@@ -67,6 +67,12 @@ const Navbar = () => {
 
                     {user ? (
                       <>
+                        <Link
+                          to='/dashboard'
+                          className='px-4 py-3 hover:bg-neutral-100 transition font-semibold'
+                        >
+                          Dashboard
+                        </Link>
                         <div
                           onClick={logOut}
                           className='px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer'
