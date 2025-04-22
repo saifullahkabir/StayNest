@@ -1,8 +1,10 @@
+import AddRoomForm from "../../../components/Form/AddRoomForm";
 
 const AddRoom = () => {
     return (
         <div>
-            <h2>Add room....</h2>
+            {/* Form */}
+            <AddRoomForm></AddRoomForm>
         </div>
     );
 };
