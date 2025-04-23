@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { categories } from '../Categories/CategoriesData'
 import { DateRange } from 'react-date-range';
-const AddRoomForm = ({ dates, handleDates, handleAddRoom }) => {
+const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, imagePreview }) => {
 
     return (
         <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 p-4 md:py-6'>
@@ -68,24 +68,36 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom }) => {
                             />
                         </div>
 
-                        <div className=' p-4 bg-white w-full  m-auto rounded-lg'>
+                        <div className=' p-4 bg-white w-full  m-auto rounded-lg flex justify-around items-center'>
                             <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
                                 <div className='flex flex-col w-max mx-auto text-center'>
-                                    <label>
-                                        <input
-                                            className='text-sm cursor-pointer w-36 hidden'
-                                            type='file'
-                                            name='image'
-                                            id='image'
-                                            accept='image/*'
-                                            hidden
-                                        />
-                                        <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
-                                            Upload Image
-                                        </div>
-                                    </label>
+                                    <div>
+                                        <label>
+                                            <input
+                                                onChange={e => {
+                                                    setImagePreview(URL.createObjectURL(e.target.files[0]))
+                                                }}
+                                                className='text-sm cursor-pointer w-36 hidden'
+                                                type='file'
+                                                name='image'
+                                                id='image'
+                                                accept='image/*'
+                                                hidden
+                                            />
+                                            <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
+                                                Upload Image
+
+                                            </div>
+
+                                        </label>
+                                    </div>
+
                                 </div>
+
                             </div>
+                            {imagePreview && <div className="border-2 border-dashed border-gray-200 rounded p-1 min-h-14 min-w-14 overflow-hidden">
+                                <img src={imagePreview} className="w-12 h-12 object-cover object-center" />
+                            </div>}
                         </div>
                         <div className='flex justify-between gap-2'>
                             <div className='space-y-1 text-sm'>

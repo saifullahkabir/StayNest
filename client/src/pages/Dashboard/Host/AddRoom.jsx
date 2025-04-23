@@ -2,9 +2,12 @@ import { useState } from "react";
 import AddRoomForm from "../../../components/Form/AddRoomForm";
 import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utils";
+import toast from "react-hot-toast";
 
 const AddRoom = () => {
     const { user } = useAuth();
+    const [imagePreview, setImagePreview] = useState();
+    const [imageText, setImageText] = useState('Upload Image')
     const [dates, setDates] = useState({
         startDate: new Date(),
         endDate: null,
@@ -23,10 +26,10 @@ const AddRoom = () => {
         const location = form.location.value;
         const category = form.category.value;
         const title = form.title.value;
-        const to = '';
-        const from = ''
+        const from = dates.startDate;
+        const to = dates.endDate;
         const price = form.price.value;
-        const quests = form.total_quests.value;
+        const guests = form.total_guest.value;
         const bedrooms = form.bedrooms.value;
         const bathrooms = form.bathrooms.value;
         const description = form.description.value;
@@ -36,7 +39,27 @@ const AddRoom = () => {
             image: user?.photoURL,
             email: user?.email
         }
-        const image_url = await imageUpload(image);
+        try {
+            const image_url = await imageUpload(image);
+            const roomData = {
+                title,
+                category,
+                location,
+                from,
+                to,
+                price,
+                guests,
+                bedrooms,
+                bathrooms,
+                description,
+                image: image_url,
+                host
+            }
+            console.table(roomData);
+        }
+        catch (err) {
+            toast.error(err.code);
+        }
     }
 
     return (
@@ -46,6 +69,8 @@ const AddRoom = () => {
                 dates={dates}
                 handleDates={handleDates}
                 handleAddRoom={handleAddRoom}
+                setImagePreview={setImagePreview}
+                imagePreview={imagePreview}
             ></AddRoomForm>
         </div>
     );

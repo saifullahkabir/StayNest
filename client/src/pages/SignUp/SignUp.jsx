@@ -17,18 +17,17 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const image = form.image.files[0];
-    
+
     try {
       setLoading(true);
       // 1. Upload image and get image url
-     const image_url = await imageUpload(image)
+      const image_url = await imageUpload(image);
 
       // 2.User registration
       const result = await createUser(email, password);
-      console.log(result);
-
+      
       // 3. save user name and photo in firebase
-      await updateUserProfile(name, data.data.display_url);
+      await updateUserProfile(name, image_url);
       toast.success('SignUp Successfully!');
       navigate('/');
 
