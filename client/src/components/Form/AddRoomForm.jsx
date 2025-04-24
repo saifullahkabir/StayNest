@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import { categories } from '../Categories/CategoriesData'
 import { DateRange } from 'react-date-range';
-const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, imagePreview, imageText, handleImage }) => {
+const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageText, handleImage }) => {
 
     return (
-        <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 p-4 md:py-6'>
+        <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 py-4 px-2 md:py-6'>
             <form onSubmit={handleAddRoom}>
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
                     <div className='space-y-6'>
@@ -45,6 +45,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, image
                             </label>
                             {/* Calender */}
                             <DateRange
+                                className='w-[320px] sm:w-[340px]'
                                 rangeColors={['#F6536D']}
                                 editableDateInputs={true}
                                 onChange={item => handleDates(item)}
@@ -98,7 +99,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, image
 
                             </div>
                             {imagePreview && <div className="border-2 border-dashed border-gray-200 rounded p-1 min-h-14 min-w-14 overflow-hidden">
-                                <img src={imagePreview} className="w-12 h-12 object-cover object-center" />
+                                <img src={imagePreview} className="w-14 h-10 object-cover object-center" />
                             </div>}
                         </div>
                         <div className='flex justify-between gap-2'>

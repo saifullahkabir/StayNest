@@ -3,6 +3,7 @@ import AddRoomForm from "../../../components/Form/AddRoomForm";
 import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const AddRoom = () => {
     const { user } = useAuth();
@@ -16,7 +17,6 @@ const AddRoom = () => {
 
     // Date range Handler
     const handleDates = item => {
-        console.log(item);
         setDates(item.selection);
     }
 
@@ -69,8 +69,11 @@ const AddRoom = () => {
     }
 
     return (
-        <div>
-            {/* Form */}
+        <>
+            <Helmet>
+                <title>Add Room | Dashboard</title>
+            </Helmet>
+
             <AddRoomForm
                 dates={dates}
                 handleDates={handleDates}
@@ -80,7 +83,7 @@ const AddRoom = () => {
                 handleImage={handleImage}
                 imageText={imageText}
             ></AddRoomForm>
-        </div>
+        </>
     );
 };
 
