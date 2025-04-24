@@ -4,9 +4,12 @@ import useAuth from "../../../hooks/useAuth";
 import { imageUpload } from "../../../api/utils";
 import toast from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
+import { useMutation } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AddRoom = () => {
-    const { user } = useAuth();
+    const { user, loading, setLoading } = useAuth();
+    const axiosSecure = useAxiosSecure();
     const [imagePreview, setImagePreview] = useState();
     const [imageText, setImageText] = useState('Upload Image')
     const [dates, setDates] = useState({
@@ -19,6 +22,17 @@ const AddRoom = () => {
     const handleDates = item => {
         setDates(item.selection);
     }
+
+    // Post request to server
+    const { mutateAsync } = useMutation({
+        mutationFn: async (roomData) => {
+            const { data } = await axiosSecure.post(`/room`, roomData);
+            return data;
+        },
+        onSuccess: () => {
+            toast.success('Add Room Successfully!');
+        }
+    })
 
     const handleAddRoom = async e => {
         e.preventDefault();
@@ -40,6 +54,7 @@ const AddRoom = () => {
             email: user?.email
         }
         try {
+            setLoading(true);
             const image_url = await imageUpload(image);
             const roomData = {
                 title,
@@ -56,6 +71,11 @@ const AddRoom = () => {
                 host
             }
             console.table(roomData);
+
+            // Post request to server
+            await mutateAsync(roomData);
+            setLoading(false);
+
         }
         catch (err) {
             toast.error(err.code);
@@ -82,6 +102,7 @@ const AddRoom = () => {
                 imagePreview={imagePreview}
                 handleImage={handleImage}
                 imageText={imageText}
+                loading={loading}
             ></AddRoomForm>
         </>
     );

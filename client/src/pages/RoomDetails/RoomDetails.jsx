@@ -57,9 +57,8 @@ const RoomDetails = () => {
                   <div>Hosted by {room?.host?.name}</div>
 
                   <img
-                    className='rounded-full'
-                    height='30'
-                    width='30'
+                  referrerPolicy='no-referrer'
+                    className='rounded-full w-[30px] h-[30px] object-cover'
                     alt='Avatar'
                     src={room?.host?.image}
                   />

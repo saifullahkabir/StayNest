@@ -13,7 +13,7 @@ import { VscThreeBars } from "react-icons/vsc";
 
 const Sidebar = () => {
     const { logOut } = useAuth()
-    const [isActive, setActive] = useState(false)
+    const [isActive, setActive] = useState(true)
 
     // Sidebar Responsive Handler
     const handleToggle = () => {

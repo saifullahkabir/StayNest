@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
+import { TbFidgetSpinner } from 'react-icons/tb';
 import { categories } from '../Categories/CategoriesData'
 import { DateRange } from 'react-date-range';
-const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageText, handleImage }) => {
+const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageText, handleImage, loading }) => {
 
     return (
         <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 py-4 px-2 md:py-6'>
@@ -51,6 +52,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageTex
                                 onChange={item => handleDates(item)}
                                 moveRangeOnFirstSelection={false}
                                 ranges={[dates]}
+                                required
                             />
                         </div>
                     </div>
@@ -84,6 +86,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageTex
                                                 id='image'
                                                 accept='image/*'
                                                 hidden
+                                                required
                                             />
                                             <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
                                                 {/* {imageText} */}
@@ -180,7 +183,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageTex
                     type='submit'
                     className='w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-rose-500'
                 >
-                    Save & Continue
+                    {loading ? <TbFidgetSpinner className='animate-spin m-auto' /> : 'Save & Continue'}
                 </button>
             </form>
         </div>

@@ -7,7 +7,6 @@ const Card = ({ room }) => {
       <div className='flex flex-col gap-2 w-full'>
         <div
           className='
-              aspect-square 
               w-full 
               relative 
               overflow-hidden 
@@ -17,7 +16,7 @@ const Card = ({ room }) => {
           <img
             className='
                 object-cover 
-                h-full 
+                h-[250px] md:h-[200px]
                 w-full 
                 group-hover:scale-125 
                 transition
