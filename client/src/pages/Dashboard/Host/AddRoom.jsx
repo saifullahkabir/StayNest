@@ -62,6 +62,12 @@ const AddRoom = () => {
         }
     }
 
+    // handle image change 
+    const handleImage = image => {
+        setImagePreview(URL.createObjectURL(image));
+        setImageText(image.name);
+    }
+
     return (
         <div>
             {/* Form */}
@@ -71,6 +77,8 @@ const AddRoom = () => {
                 handleAddRoom={handleAddRoom}
                 setImagePreview={setImagePreview}
                 imagePreview={imagePreview}
+                handleImage={handleImage}
+                imageText={imageText}
             ></AddRoomForm>
         </div>
     );

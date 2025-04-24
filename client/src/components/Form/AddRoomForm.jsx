@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { categories } from '../Categories/CategoriesData'
 import { DateRange } from 'react-date-range';
-const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, imagePreview }) => {
+const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, imagePreview, imageText, handleImage }) => {
 
     return (
         <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 p-4 md:py-6'>
@@ -68,14 +68,14 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, image
                             />
                         </div>
 
-                        <div className=' p-4 bg-white w-full  m-auto rounded-lg flex justify-around items-center'>
+                        <div className={`p-4 bg-white w-full  m-auto rounded-lg ${imagePreview && 'flex justify-around items-center'}`}>
                             <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
                                 <div className='flex flex-col w-max mx-auto text-center'>
                                     <div>
                                         <label>
                                             <input
                                                 onChange={e => {
-                                                    setImagePreview(URL.createObjectURL(e.target.files[0]))
+                                                    handleImage(e.target.files[0])
                                                 }}
                                                 className='text-sm cursor-pointer w-36 hidden'
                                                 type='file'
@@ -85,13 +85,15 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, setImagePreview, image
                                                 hidden
                                             />
                                             <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
-                                                Upload Image
-
+                                                {/* {imageText} */}
+                                                {imageText.length > 15 ?
+                                                    imageText.slice(0, imageText.lastIndexOf('.')).slice(0, 10) + '...' + imageText.split('.').pop()
+                                                    :
+                                                    imageText
+                                                }
                                             </div>
-
                                         </label>
                                     </div>
-
                                 </div>
 
                             </div>
