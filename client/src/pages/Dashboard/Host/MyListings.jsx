@@ -3,11 +3,12 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import RoomDataRow from '../../../components/Dashboard/TableRows/RoomDataRow';
 
 const MyListings = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
-    const { data: rooms = [], isLoading } = useQuery({
+    const { data: rooms = [], isLoading, refetch } = useQuery({
         queryKey: ['my-listings', user?.email],
         queryFn: async () => {
             const { data } = await axiosSecure.get(`/my-listings/${user?.email}`);
@@ -32,6 +33,10 @@ const MyListings = () => {
                             <table className='min-w-full leading-normal'>
                                 <thead>
                                     <tr>
+                                        <th scope='col'
+                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                                            Image
+                                        </th>
                                         <th
                                             scope='col'
                                             className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
@@ -76,7 +81,14 @@ const MyListings = () => {
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>{/* Room row data */}</tbody>
+                                <tbody>
+                                    {/* Room row data */}
+                                    {rooms.map(room => <RoomDataRow
+                                        key={room._id}
+                                        room={room}
+                                        refetch={refetch}
+                                    ></RoomDataRow>)}
+                                </tbody>
                             </table>
                         </div>
                     </div>
