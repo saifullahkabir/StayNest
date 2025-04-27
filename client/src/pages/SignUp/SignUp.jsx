@@ -2,7 +2,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import { TbFidgetSpinner } from "react-icons/tb";
 import { imageUpload } from '../../api/utils';
 
@@ -24,8 +23,8 @@ const SignUp = () => {
       const image_url = await imageUpload(image);
 
       // 2.User registration
-      const result = await createUser(email, password);
-      
+      await createUser(email, password);
+
       // 3. save user name and photo in firebase
       await updateUserProfile(name, image_url);
       toast.success('SignUp Successfully!');
