@@ -2,17 +2,22 @@ import { Helmet } from 'react-helmet-async'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 
 const MyListings = () => {
     const axiosSecure = useAxiosSecure();
-    const {user} = useAuth();
-    const {data: rooms = [], isLoading} = useQuery({
-        queryKey: ['rooms', user?.email],
+    const { user } = useAuth();
+    const { data: rooms = [], isLoading } = useQuery({
+        queryKey: ['my-listings', user?.email],
         queryFn: async () => {
-            const {data} = await axiosSecure.get(`/rooms/${user?.email}`);
+            const { data } = await axiosSecure.get(`/my-listings/${user?.email}`);
             return data;
+
         }
     })
+    console.log(rooms);
+
+    if (isLoading) return <LoadingSpinner />
 
     return (
         <>
