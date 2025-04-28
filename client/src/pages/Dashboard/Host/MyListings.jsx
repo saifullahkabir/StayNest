@@ -8,15 +8,20 @@ import RoomDataRow from '../../../components/Dashboard/TableRows/RoomDataRow';
 const MyListings = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuth();
+
+    // Fetch rooms data
     const { data: rooms = [], isLoading, refetch } = useQuery({
         queryKey: ['my-listings', user?.email],
         queryFn: async () => {
             const { data } = await axiosSecure.get(`/my-listings/${user?.email}`);
             return data;
-
         }
     })
-    console.log(rooms);
+   
+    // Handle Delete
+    const handleDelete = id => {
+        console.log(id);
+    }
 
     if (isLoading) return <LoadingSpinner />
 
@@ -34,7 +39,7 @@ const MyListings = () => {
                                 <thead>
                                     <tr>
                                         <th scope='col'
-                                            className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                                            className='px-5 xl:py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
                                             Image
                                         </th>
                                         <th
@@ -86,7 +91,7 @@ const MyListings = () => {
                                     {rooms.map(room => <RoomDataRow
                                         key={room._id}
                                         room={room}
-                                        refetch={refetch}
+                                        handleDelete={handleDelete}
                                     ></RoomDataRow>)}
                                 </tbody>
                             </table>
