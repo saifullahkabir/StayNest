@@ -49,6 +49,8 @@ const RoomDataRow = ({ room, handleDelete }) => {
                 <DeleteModal
                     isOpen={isOpen}
                     closeModal={closeModal}
+                    handleDelete={handleDelete}
+                    id={room?._id}
                 ></DeleteModal>
 
 
@@ -70,6 +72,7 @@ const RoomDataRow = ({ room, handleDelete }) => {
 RoomDataRow.propTypes = {
     room: PropTypes.object,
     refetch: PropTypes.func,
+    handleDelete: PropTypes.func
 }
 
 export default RoomDataRow;
