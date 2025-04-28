@@ -21,12 +21,11 @@ const MyListings = () => {
 
     // Delete
     const { mutateAsync } = useMutation({
-        mutationFn: async (id) => {
-            const { data } = await axiosSecure.delete(`/room/:${id}`);
+        mutationFn: async id => {
+            const { data } = await axiosSecure.delete(`/room/${id}`);
             return data;
         },
-        onSuccess: (data) => {
-            console.log(data);
+        onSuccess: () => {
             toast.success('Deleted Successfully!');
             refetch();
         }
@@ -35,10 +34,10 @@ const MyListings = () => {
     // Handle Delete
     const handleDelete = async id => {
         console.log(id);
-        try{
+        try {
             await mutateAsync(id);
         }
-        catch(err) {
+        catch (err) {
             toast.error(err.message);
         }
     }
