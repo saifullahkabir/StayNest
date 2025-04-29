@@ -26,14 +26,13 @@ const MyListings = () => {
             return data;
         },
         onSuccess: () => {
-            toast.success('Deleted Successfully!');
             refetch();
+            toast.success('Deleted Successfully!');
         }
     })
 
     // Handle Delete
     const handleDelete = async id => {
-        console.log(id);
         try {
             await mutateAsync(id);
         }
