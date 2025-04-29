@@ -122,8 +122,13 @@ async function run() {
 
     // save a user data in db 
     app.put('/user', async (req, res) => {
-      const user = req.body;
+      const user = req.body
       const query = { email: user?.email };
+
+      // check if user already exists in db
+      const isExist = await usersCollection.findOne(query);
+      if (isExist) return res.send(isExist);
+
       const options = { upsert: true };
       const updateDoc = {
         $set: {
@@ -131,7 +136,7 @@ async function run() {
           timestamp: Date.now(),
         }
       }
-      const result = await usersCollection.findOne(query, updateDoc, options);
+      const result = await usersCollection.updateOne(query, updateDoc, options);
       res.send(result);
     })
 
