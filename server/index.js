@@ -49,6 +49,7 @@ async function run() {
   try {
 
     const roomsCollection = client.db('StayNest').collection('rooms');
+    const usersCollection = client.db('StayNest').collection('users');
 
     // auth related api
     app.post('/jwt', async (req, res) => {
@@ -116,6 +117,21 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await roomsCollection.deleteOne(query);
+      res.send(result);
+    })
+
+    // save a user data in db 
+    app.put('/user', async (req, res) => {
+      const user = req.body;
+      const query = { email: user?.email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          ...user,
+          timestamp: Date.now(),
+        }
+      }
+      const result = await usersCollection.findOne(query, updateDoc, options);
       res.send(result);
     })
 
