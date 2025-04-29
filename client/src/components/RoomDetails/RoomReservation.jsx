@@ -24,9 +24,12 @@ const RoomReservation = ({ room }) => {
 
   return (
     <div className='rounded-xl border-[1px] border-neutral-200 overflow-hidden bg-white'>
-      <div className='flex items-center gap-1 p-4'>
-        <div className='text-2xl font-semibold'>$ {room?.price}</div>
-        <div className='font-light text-neutral-600'>/night</div>
+      <div className='flex items-center justify-between'>
+        <div className='flex items-center gap-1 p-4'>
+          <div className='text-2xl font-semibold'>$ {room?.price}</div>
+          <div className='font-light text-neutral-600'>/night</div>
+        </div>
+        <div className='p-4 font-light text-neutral-600'><span className='font-medium text-xl'>{totalDays}</span>/night</div>
       </div>
       <hr />
       <div className='flex justify-center'>
