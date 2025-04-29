@@ -5,13 +5,53 @@ import { Link } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import HostRequestModel from '../../Modal/HostRequestModel'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 
 const Navbar = () => {
+  const axiosSecure = useAxiosSecure();
   const { user, logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const closeModal = () => {
     setIsModalOpen(false);
+  }
+
+  // Update status
+  const { mutateAsync } = useMutation({
+    mutationFn: async (userData) => {
+      console.log(userData);
+      const { data } = await axiosSecure.put(`/users`, userData);
+      return data;
+    },
+
+  })
+
+  const modalHandler = async () => {
+    try {
+      const userData = {
+        name: user?.name,
+        email: user?.email,
+        role: 'guest',
+        status: 'Requested'
+      }
+      const data = await mutateAsync(userData);
+      console.log(data);
+      if (data.modifiedCount > 0) {
+        toast.success('Success! Please wait for admin confirmation');
+      }
+      else {
+        toast.success('Please!, Wait for admin approval')
+      }
+    }
+    catch (err) {
+      toast.error(err.message);
+    }
+    finally {
+      closeModal();
+    }
   }
 
   return (
@@ -44,7 +84,7 @@ const Navbar = () => {
                   )}
                 </div>
                 {/* Modal */}
-                <HostRequestModel isOpen={isModalOpen} closeModal={closeModal} />
+                <HostRequestModel isOpen={isModalOpen} closeModal={closeModal} modalHandler={modalHandler} />
                 {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
