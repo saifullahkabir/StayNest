@@ -23,7 +23,7 @@ const Navbar = () => {
   const { mutateAsync } = useMutation({
     mutationFn: async (userData) => {
       console.log(userData);
-      const { data } = await axiosSecure.put(`/users`, userData);
+      const { data } = await axiosSecure.put(`/user`, userData);
       return data;
     },
 
@@ -32,13 +32,13 @@ const Navbar = () => {
   const modalHandler = async () => {
     try {
       const userData = {
-        name: user?.name,
+        name: user?.displayName,
         email: user?.email,
         role: 'guest',
         status: 'Requested'
       }
       const data = await mutateAsync(userData);
-      console.log(data);
+      console.log(data, 'data');
       if (data.modifiedCount > 0) {
         toast.success('Success! Please wait for admin confirmation');
       }
