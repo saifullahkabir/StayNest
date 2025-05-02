@@ -4,6 +4,7 @@ import useAuth from '../../../hooks/useAuth'
 import useRole from '../../../hooks/useRole';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import ChangePassModal from '../../../components/Modal/ChangePassModal';
+import UpdateProfileModal from '../../../components/Modal/UpdateProfileModal';
 
 
 const Profile = () => {
@@ -49,14 +50,8 @@ const Profile = () => {
                                 <span className='font-bold text-black '>{user?.email}</span>
                             </p>
 
-                            <div className='md:pt-4 lg:pt-0'>
-                                <button className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                    Update Profile
-                                </button>
-                                
-                                {/* <button className='bg-[#F43F5E] px-[30px] py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]'>
-                                    Change Password
-                                </button> */}
+                            <div className='md:pt-4 lg:pt-0 space-y-2'>
+                                <UpdateProfileModal></UpdateProfileModal>
                                 <ChangePassModal></ChangePassModal>
                             </div>
                         </div>

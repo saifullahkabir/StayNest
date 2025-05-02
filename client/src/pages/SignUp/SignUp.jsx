@@ -12,10 +12,14 @@ const SignUp = () => {
   const handleSignUp = async e => {
     e.preventDefault();
     const form = e.target;
-    const name = form.name.value;
+    const name = form.name.value.trim();
     const email = form.email.value;
-    const password = form.password.value;
+    const password = form.password.value.trim();
     const image = form.image.files[0];
+
+    if (!name) {
+      return toast.error('Name is required!')
+    }
 
     try {
       setLoading(true);
@@ -33,6 +37,7 @@ const SignUp = () => {
     }
     catch (err) {
       toast.error(err.message);
+      setLoading(false)
     }
 
   }

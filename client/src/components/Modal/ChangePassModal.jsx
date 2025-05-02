@@ -20,10 +20,9 @@ const ChangePassModal = () => {
         }
     }
     return (
-        <div>
-            {/* Modal for change password */}
-            <button className='bg-[#F43F5E] px-[30px] py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]' onClick={() => document.getElementById('my_modal_3').showModal()}>Change Password</button>
-            <dialog id="my_modal_3" className="modal">
+        <>
+            <button className='bg-[#F43F5E] px-[30px] py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053]' onClick={() => document.getElementById('change_pass_modal').showModal()}>Change Password</button>
+            <dialog id="change_pass_modal" className="modal">
                 <div className="modal-box max-w-md xl:max-w-lg md:ml-52 xl:ml-64">
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -54,7 +53,7 @@ const ChangePassModal = () => {
                     </div>
                 </div>
             </dialog>
-        </div>
+        </>
     );
 };
 
