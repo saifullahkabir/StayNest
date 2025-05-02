@@ -10,10 +10,13 @@ import { Link } from 'react-router-dom'
 import { MdHomeWork } from 'react-icons/md'
 import { HiOutlineX } from "react-icons/hi";
 import { VscThreeBars } from "react-icons/vsc";
+import useRole from '../../../hooks/useRole'
 
 const Sidebar = () => {
     const { logOut } = useAuth()
     const [isActive, setActive] = useState(true)
+    const [role] = useRole();
+    console.log(role);
 
     // Sidebar Responsive Handler
     const handleToggle = () => {
