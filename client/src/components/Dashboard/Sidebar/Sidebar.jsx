@@ -12,6 +12,7 @@ import { HiOutlineX } from "react-icons/hi";
 import { VscThreeBars } from "react-icons/vsc";
 import useRole from '../../../hooks/useRole'
 import MenuItem from './Menu/MenuItem'
+import HostMenu from './Menu/HostMenu'
 
 const Sidebar = () => {
     const { logOut } = useAuth()
@@ -86,19 +87,7 @@ const Sidebar = () => {
                                 icon={BsGraphUp}
                             ></MenuItem>
 
-                            {/* Add Room */}
-                            <MenuItem
-                                label='Add Room'
-                                address='add-room'
-                                icon={BsFillHouseAddFill}
-                            ></MenuItem>
-
-                            {/* My Listing */}
-                            <MenuItem
-                                label='My Listings'
-                                address='my-listings'
-                                icon={MdHomeWork}
-                            ></MenuItem>
+                            {role === 'host' && <HostMenu />}
                         </nav>
                     </div>
                 </div>
