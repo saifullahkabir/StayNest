@@ -13,6 +13,8 @@ import { VscThreeBars } from "react-icons/vsc";
 import useRole from '../../../hooks/useRole'
 import MenuItem from './Menu/MenuItem'
 import HostMenu from './Menu/HostMenu'
+import AdminMenu from './Menu/AdminMenu'
+import GuestMenu from './Menu/GuestMenu'
 
 const Sidebar = () => {
     const { logOut } = useAuth()
@@ -87,7 +89,9 @@ const Sidebar = () => {
                                 icon={BsGraphUp}
                             ></MenuItem>
 
+                            {role === 'guest' && <GuestMenu />}
                             {role === 'host' && <HostMenu />}
+                            {role === 'admin' && <AdminMenu />}
                         </nav>
                     </div>
                 </div>
