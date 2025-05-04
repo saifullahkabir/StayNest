@@ -133,7 +133,6 @@ async function run() {
           const result = await usersCollection.updateOne(query, {
             $set: { status: user?.status }
           });
-          console.log(result, result);
           return res.send(result);
         }
         // if existing user login again
@@ -175,7 +174,7 @@ async function run() {
           ...user,
           timestamp: Date.now()
         }
-      }
+      };
       const result = await usersCollection.updateOne(query, updateDoc);
       res.send(result);
     })

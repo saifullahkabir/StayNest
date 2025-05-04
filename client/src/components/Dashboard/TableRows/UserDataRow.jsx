@@ -1,11 +1,41 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import UpdateUserModal from '../../Modal/UpdateUserModal';
+import { useMutation } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import toast from 'react-hot-toast'
 const UserDataRow = ({ user, refetch }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const axiosSecure = useAxiosSecure();
 
-    const modalHandler = (selected) => {
+    const { mutateAsync } = useMutation({
+        mutationFn: async (userData) => {
+            const { data } = await axiosSecure.patch(`/users/update/${user?.email}`, userData);
+            console.log(data);
+            return data;
+        },
+        onSuccess: () => {
+            refetch();
+            toast.success('User role updated successfully!');
+            setIsOpen(false);
+        },
+    })
+
+    const modalHandler = async (selected) => {
         console.log('user role updated', selected);
+
+        const userData = {
+            role: selected,
+            status: 'Verified',
+            email: user?.email
+        }
+
+        try {
+            await mutateAsync(userData);
+        }
+        catch (err) {
+            toast.error(err.message);
+        }
     }
 
     return (
@@ -39,10 +69,10 @@ const UserDataRow = ({ user, refetch }) => {
                 </button>
                 {/* Update User Modal */}
                 <UpdateUserModal
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                modalHandler={modalHandler}
-                user={user}
+                    setIsOpen={setIsOpen}
+                    isOpen={isOpen}
+                    modalHandler={modalHandler}
+                    user={user}
                 ></UpdateUserModal>
             </td>
         </tr>
