@@ -47,7 +47,7 @@ const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
               leaveFrom='opacity-100 scale-100'
               leaveTo='opacity-0 scale-95'
             >
-              <DialogPanel className='w-full h-56 max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+              <DialogPanel className='w-full h-56 max-w-md transform overflow-y-auto rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                 <DialogTitle
                   as='h3'
                   className='text-lg font-medium text-center leading-6 text-gray-900'
@@ -72,11 +72,11 @@ const UpdateUserModal = ({ setIsOpen, isOpen, modalHandler, user }) => {
                         leaveFrom='opacity-100'
                         leaveTo='opacity-0'
                       >
-                        <ListboxOptions className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm'>
+                        <ListboxOptions className='absolute my-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm'>
                           {roles.map((role, roleIdx) => (
                             <ListboxOption
                               key={roleIdx}
-                              className='relative cursor-default select-none py-2 pl-10 pr-4 text-gray-900 data-[focus]:bg-amber-100  data-[focus]:text-amber-900'
+                              className='relative cursor-default select-none py-1 md:py-2 pl-10 pr-4 text-gray-900 data-[focus]:bg-amber-100  data-[focus]:text-amber-900 '
                               value={role}
                             >
                               {({ selected }) => (

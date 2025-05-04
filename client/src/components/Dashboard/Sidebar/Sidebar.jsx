@@ -15,6 +15,7 @@ import MenuItem from './Menu/MenuItem'
 import HostMenu from './Menu/HostMenu'
 import AdminMenu from './Menu/AdminMenu'
 import GuestMenu from './Menu/GuestMenu'
+import LoadingSpinner from '../../Shared/LoadingSpinner'
 
 const Sidebar = () => {
     const { logOut } = useAuth()
@@ -26,6 +27,8 @@ const Sidebar = () => {
     const handleToggle = () => {
         setActive(!isActive)
     }
+
+
     return (
         <>
             {/* Small Screen Navbar */}
@@ -91,7 +94,8 @@ const Sidebar = () => {
 
                             {role === 'guest' && <GuestMenu />}
                             {role === 'host' && <HostMenu />}
-                            {role === 'admin' && <AdminMenu />}
+                            {/* {role === 'admin' && <AdminMenu />} */}
+                            <AdminMenu></AdminMenu>
                         </nav>
                     </div>
                 </div>
