@@ -4,8 +4,8 @@ import UpdateUserModal from '../../Modal/UpdateUserModal';
 const UserDataRow = ({ user, refetch }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const modalHandler = () => {
-        console.log('user role updated');
+    const modalHandler = (selected) => {
+        console.log('user role updated', selected);
     }
 
     return (
