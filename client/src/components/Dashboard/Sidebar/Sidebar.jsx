@@ -94,8 +94,7 @@ const Sidebar = () => {
 
                             {role === 'guest' && <GuestMenu />}
                             {role === 'host' && <HostMenu />}
-                            {/* {role === 'admin' && <AdminMenu />} */}
-                            <AdminMenu></AdminMenu>
+                            {role === 'admin' && <AdminMenu />}
                         </nav>
                     </div>
                 </div>
