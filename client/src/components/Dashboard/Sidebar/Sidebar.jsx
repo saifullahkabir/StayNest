@@ -15,7 +15,7 @@ import MenuItem from './Menu/MenuItem'
 import HostMenu from './Menu/HostMenu'
 import AdminMenu from './Menu/AdminMenu'
 import GuestMenu from './Menu/GuestMenu'
-import LoadingSpinner from '../../Shared/LoadingSpinner'
+import ToggleBtn from '../../Shared/Button/ToggleBtn'
 
 const Sidebar = () => {
     const { logOut } = useAuth()
@@ -28,6 +28,9 @@ const Sidebar = () => {
         setActive(!isActive)
     }
 
+    const toggleHandler = () => {
+
+    }
 
     return (
         <>
@@ -82,6 +85,7 @@ const Sidebar = () => {
                     {/* Nav Items */}
                     <div className='flex flex-col justify-between flex-1 mt-6'>
                         {/* Conditional toggle button here.. */}
+                        {role === 'host' && <ToggleBtn toggleHandler={toggleHandler} />}
 
                         {/*  Menu Items */}
                         <nav>
