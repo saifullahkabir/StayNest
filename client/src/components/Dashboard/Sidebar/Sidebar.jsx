@@ -21,7 +21,7 @@ const Sidebar = () => {
     const { logOut } = useAuth()
     const [isActive, setActive] = useState(true)
     const [role] = useRole();
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(true);
 
     // Sidebar Responsive Handler
     const handleToggle = () => {
@@ -29,7 +29,7 @@ const Sidebar = () => {
     }
 
     const toggleHandler = () => {
-
+        setToggle(!toggle);
     }
 
     return (
@@ -85,7 +85,7 @@ const Sidebar = () => {
                     {/* Nav Items */}
                     <div className='flex flex-col justify-between flex-1 mt-6'>
                         {/* Conditional toggle button here.. */}
-                        {role === 'host' && <ToggleBtn toggleHandler={toggleHandler} />}
+                        {role === 'host' && <ToggleBtn toggleHandler={toggleHandler} toggle={toggle} />}
 
                         {/*  Menu Items */}
                         <nav>
@@ -97,7 +97,7 @@ const Sidebar = () => {
                             ></MenuItem>
 
                             {role === 'guest' && <GuestMenu />}
-                            {role === 'host' && <HostMenu />}
+                            {role === 'host' && toggle ? <HostMenu /> : <GuestMenu />}
                             {role === 'admin' && <AdminMenu />}
                         </nav>
                     </div>

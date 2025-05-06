@@ -6,14 +6,16 @@ import useAuth from '../../../hooks/useAuth'
 import avatarImg from '../../../assets/images/placeholder.jpg'
 import HostRequestModel from '../../Modal/HostRequestModel'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
+import useRole from '../../../hooks/useRole'
 
 const Navbar = () => {
   const axiosSecure = useAxiosSecure();
   const { user, logOut } = useAuth()
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [role] = useRole();
 
   const closeModal = () => {
     setIsModalOpen(false);
@@ -54,14 +56,6 @@ const Navbar = () => {
     }
   }
 
-  // fetch a specific user data
-  const { data: loggedInUser = [] } = useQuery({
-    queryKey: ['loggedInUser', user?.email],
-    queryFn: async () => {
-      const { data } = await axiosSecure(`/user/${user?.email}`);
-      return data;
-    }
-  });
 
   return (
     <div className='fixed w-full bg-white z-10 shadow-sm'>
@@ -82,7 +76,7 @@ const Navbar = () => {
               <div className='flex flex-row items-center gap-3'>
                 {/* Become A Host btn */}
                 <div className='hidden md:block'>
-                  {loggedInUser?.role === 'guest' && (
+                  {role === 'guest' && (
                     <button
                       onClick={() => setIsModalOpen(true)}
                       className='disabled:cursor-not-allowed cursor-pointer hover:bg-neutral-100 py-3 px-4 text-sm font-semibold rounded-full  transition'
