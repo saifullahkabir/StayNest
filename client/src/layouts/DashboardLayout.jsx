@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
-import useRole from "../hooks/useRole";
-import LoadingSpinner from "../components/Shared/LoadingSpinner";
+
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
     const {loading} = useAuth();
-    if(loading)  return <LoadingSpinner></LoadingSpinner>
+    if(loading)  return ;
     return (
         <div className="relative min-h-screen md:flex">
             {/* Sidebar */}
