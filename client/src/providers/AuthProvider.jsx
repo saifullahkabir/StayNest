@@ -48,7 +48,9 @@ const AuthProvider = ({ children }) => {
     await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
       withCredentials: true,
     })
-    return signOut(auth)
+    signOut(auth);
+    setLoading(false);
+    return;
   }
 
   const updateUserProfile = (name, photo) => {
@@ -83,12 +85,12 @@ const AuthProvider = ({ children }) => {
   // onAuthStateChange
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
-      setUser(currentUser)
+      setUser(currentUser);
       if (currentUser) {
         getToken(currentUser.email);
         saveUser(currentUser);
       }
-      setLoading(false)
+      setLoading(false);
     })
     return () => {
       return unsubscribe()

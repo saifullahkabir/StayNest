@@ -6,7 +6,7 @@ const useRole = () => {
     const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
 
-
+    //  fetch user info using logged in user email
     const { data: role, isLoading } = useQuery({
         queryKey: ['role'],
         enabled: !loading && !!user?.email,
@@ -15,10 +15,6 @@ const useRole = () => {
             return data.role;
         }
     })
-
-
-
-    //  fetch user info using logged in user email
 
     return [role, isLoading];
 };

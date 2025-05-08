@@ -51,6 +51,17 @@ async function run() {
     const roomsCollection = client.db('StayNest').collection('rooms');
     const usersCollection = client.db('StayNest').collection('users');
 
+    // verify admin middleware
+    const verifyAdmin = async (req, res, next) => {
+      const user = req.user;
+      const query = { email: user?.email };
+      const result = await usersCollection.findOne(query);
+      if (!result || result?.role !== 'admin') {
+        return res.status(403).send({ message: 'forbidden access' });
+      }
+      next();
+    }
+
     // auth related api
     app.post('/jwt', async (req, res) => {
       const user = req.body
@@ -159,7 +170,7 @@ async function run() {
     })
 
     // get all user data form db 
-    app.get('/users', async (req, res) => {
+    app.get('/users', verifyToken, verifyAdmin, async (req, res) => {
       const result = await usersCollection.find().toArray();
       res.send(result);
     })
