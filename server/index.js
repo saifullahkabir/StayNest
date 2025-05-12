@@ -113,7 +113,7 @@ async function run() {
     });
 
     // save a room data in db
-    app.post('/room', async (req, res) => {
+    app.post('/room', verifyToken, verifyHost, async (req, res) => {
       const roomData = req.body;
       const result = await roomsCollection.insertOne(roomData);
       res.send(result);
@@ -127,7 +127,7 @@ async function run() {
     })
 
     // get all rooms data for host
-    app.get('/my-listings/:email', async (req, res) => {
+    app.get('/my-listings/:email', verifyToken, verifyHost, async (req, res) => {
       const email = req.params.email;
       const query = { 'host.email': email };
       const result = await roomsCollection.find(query).toArray();
@@ -135,7 +135,7 @@ async function run() {
     })
 
     // delete a room data
-    app.delete('/room/:id', async (req, res) => {
+    app.delete('/room/:id', verifyToken, verifyHost, async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await roomsCollection.deleteOne(query);
