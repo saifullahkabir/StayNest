@@ -1,8 +1,5 @@
 {
   "dependencies": {
     "@tanstack/react-query": "^5.74.4"
-  },
-  "devDependencies": {
-    "daisyui": "^5.0.27"
   }
 }
