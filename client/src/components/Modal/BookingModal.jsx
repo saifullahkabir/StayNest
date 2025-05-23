@@ -9,6 +9,11 @@ import {
 import { format } from 'date-fns'
 import { Fragment } from 'react'
 import useAuth from '../../hooks/useAuth'
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import CheckoutForm from '../Form/CheckoutForm'
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
     const { user } = useAuth();
@@ -74,7 +79,11 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
                                     </p>
                                 </div>
                                 <hr className='mt-8 ' />
-                                {/* checkout form */}
+
+                                <Elements stripe={stripePromise}>
+                                    {/* checkout form */}
+                                    <CheckoutForm />
+                                </Elements>
 
                                 <div className='flex mt-3 justify-around'>
                                     <button
@@ -87,7 +96,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
                                     <button
                                         type='button'
                                         className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
-                                        
+
                                     >
                                         Pay {bookingInfo.price}$
                                     </button>
