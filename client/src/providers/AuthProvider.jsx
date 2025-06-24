@@ -48,7 +48,7 @@ const AuthProvider = ({ children }) => {
     await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
       withCredentials: true,
     })
-    signOut(auth);
+    await signOut(auth);
     setLoading(false);
     return;
   }
@@ -92,9 +92,7 @@ const AuthProvider = ({ children }) => {
       }
       setLoading(false);
     })
-    return () => {
-      return unsubscribe()
-    }
+    return () => unsubscribe();
   }, [])
 
   const authInfo = {

@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000
 
 // middleware
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://staynest-c7b88.web.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
@@ -87,6 +87,7 @@ async function run() {
         })
         .send({ success: true })
     })
+
     // Logout
     app.get('/logout', async (req, res) => {
       try {
