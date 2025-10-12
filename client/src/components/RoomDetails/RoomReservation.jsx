@@ -23,9 +23,9 @@ const RoomReservation = ({ room }) => {
   const totalDays = differenceInCalendarDays(
     new Date(room.to),
     new Date(room.from)
-  ) + 1;
-
-  const totalPrice = totalDays * room?.price
+  );
+  
+  const totalPrice = totalDays * room?.price;
 
 
   return (

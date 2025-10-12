@@ -39,8 +39,8 @@ const Sidebar = () => {
                                 // className='hidden md:block'
                                 src='https://i.ibb.co.com/cXF3xvYw/Adobe-Express-file.png'
                                 alt='logo'
-                                width='110'
-                                height='110'
+                                width='120'
+                                height='120'
                             />
                         </Link>
                     </div>

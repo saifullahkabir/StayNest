@@ -86,7 +86,7 @@ const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageTex
                                                 id='image'
                                                 accept='image/*'
                                                 hidden
-                                                
+
                                             />
                                             <div className='bg-rose-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-rose-500'>
                                                 {/* {imageText} */}

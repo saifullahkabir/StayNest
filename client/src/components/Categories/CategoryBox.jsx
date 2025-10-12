@@ -33,7 +33,7 @@ const CategoryBox = ({ label, icon: Icon }) => {
       border-b-2
       hover:text-neutral-800
       transition
-      cursor-pointer ${category === label && ' border-b-black text-black'}`}
+      cursor-pointer ${category === label ?  ' border-b-black text-black opacity-100' : 'opacity-90'}`}
     >
       <Icon size={26} />
       <div className='text-sm font-medium'>{label}</div>

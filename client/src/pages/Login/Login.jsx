@@ -45,7 +45,7 @@ const Login = () => {
   // reset password
   const handleResetPassword = async () => {
     console.log(email, 'email');
-    if (!email) return toast.error('Please write your email first!')
+    if (!email) return toast.error('Please write your email first!');
 
     try {
       await resetPassword(email);
