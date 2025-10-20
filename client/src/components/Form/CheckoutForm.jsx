@@ -1,16 +1,43 @@
 /* eslint-disable react/prop-types */
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-
+import { ImSpinner9 } from 'react-icons/im'
 import './CheckoutForm.css';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
+import useAuth from '../../hooks/useAuth';
 
 // eslint-disable-next-line react/prop-types
 const CheckoutForm = ({ closeModal, bookingInfo }) => {
     const stripe = useStripe();
     const elements = useElements();
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const [clientSecret, setClientSecret] = useState();
+    const [cardError, setCardError] = useState('');
+    const [processing, setProcessing] = useState(false);
+
+    useEffect(() => {
+        // fetch client secret
+        if (bookingInfo?.price) {
+            getClientSecret({ price: bookingInfo?.price });
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [bookingInfo?.price]);
+
+    // get clientSecret
+    const getClientSecret = async price => {
+        const { data } = await axiosSecure.post(`/create-payment-intent`, price);
+        console.log('client secret from server --->', data);
+        setClientSecret(data.clientSecret);
+
+    }
 
     const handleSubmit = async (event) => {
         // Block native form submission.
         event.preventDefault();
+        setProcessing(true);
 
         if (!stripe || !elements) {
             // Stripe.js has not loaded yet. Make sure to disable
@@ -35,47 +62,94 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
 
         if (error) {
             console.log('[error]', error);
+            setCardError(error?.message);
+            setProcessing(false);
+            return;
         } else {
             console.log('[PaymentMethod]', paymentMethod);
+            setCardError('');
         }
+
+        // confirm payment 
+        const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: card,
+                billing_details: {
+                    email: user?.email,
+                    name: user?.displayName,
+                },
+            }
+        });
+
+        if (confirmError) {
+            console.log("confirmError", confirmError);
+            setCardError(confirmError?.message);
+            setProcessing(false);
+            return;
+        }
+
+        if (paymentIntent.status === "succeeded") {
+            // 1. create payment info object 
+            const paymentInfo = {
+                ...bookingInfo,
+                transactionId: paymentIntent.id,
+                date: new Date()
+            }
+            console.log(paymentInfo);
+
+            // 2. 
+        }
+        setProcessing(false);
     };
 
+
+
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement
-                options={{
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#424770',
-                            '::placeholder': {
-                                color: '#aab7c4',
+        <>
+            <form onSubmit={handleSubmit}>
+                <CardElement
+                    options={{
+                        style: {
+                            base: {
+                                fontSize: '16px',
+                                color: '#424770',
+                                '::placeholder': {
+                                    color: '#aab7c4',
+                                },
+                            },
+                            invalid: {
+                                color: '#9e2146',
                             },
                         },
-                        invalid: {
-                            color: '#9e2146',
-                        },
-                    },
-                }}
-            />
-            
-            <div className='flex mt-3 justify-around'>
-                <button
-                    onClick={closeModal}
-                    type='button'
-                    className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
-                >
-                    Cancel
-                </button>
-                <button
-                    type="submit" disabled={!stripe}
-                    className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
+                    }}
+                />
 
-                >
-                    Pay {bookingInfo?.price}$
-                </button>
+                <div className='flex mt-3 justify-around'>
+                    <button
+                        onClick={closeModal}
+                        type='button'
+                        className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit" disabled={!stripe || !clientSecret || processing}
+                        className='inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-900 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2'
+
+                    >
+                        {
+                            processing ?
+                                (<ImSpinner9 className='animate-spin text-xl m-auto'></ImSpinner9>)
+                                :
+                                (`Pay ${bookingInfo?.price}$`)
+                        }
+                    </button>
+                </div>
+            </form>
+            <div>
+                {cardError && <p className='mt-2  text-red-600'>{cardError}</p>}
             </div>
-        </form>
+        </>
     );
 };
 

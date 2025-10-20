@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const jwt = require('jsonwebtoken')
 
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 const port = process.env.PORT || 8000;
 
@@ -52,8 +52,10 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
 
-    const roomsCollection = client.db('StayNest').collection('rooms');
-    const usersCollection = client.db('StayNest').collection('users');
+    const db = client.db('StayNest');
+    const roomsCollection = db.collection('rooms');
+    const usersCollection = db.collection('users');
+    const bookingsCollection = db.collection('bookings');
 
     // verify admin middleware
     const verifyAdmin = async (req, res, next) => {
@@ -112,7 +114,7 @@ async function run() {
     app.post('/create-payment-intent', verifyToken, async (req, res) => {
       const price = req.body.price;
       const priceInCent = parseFloat(price) * 100;
-      if (!price || priceInCent) return;
+      if (!price || !priceInCent) return;
       // Create a PaymentIntent with the order amount and currency
       const { client_secret } = await stripe.paymentIntents.create({
         amount: priceInCent,
@@ -122,7 +124,6 @@ async function run() {
           enabled: true,
         },
       })
-
       // send client secret as response
       res.send({ clientSecret: client_secret });
     })
@@ -222,6 +223,13 @@ async function run() {
         }
       };
       const result = await usersCollection.updateOne(query, updateDoc);
+      res.send(result);
+    })
+
+    // save a booking data in db
+    app.post('/booking', verifyToken, async (req, res) => {
+      const bookingData = req.body;
+      const result = await bookingsCollection.insertOne(bookingData);
       res.send(result);
     })
 
