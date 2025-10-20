@@ -126,7 +126,7 @@ const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
 
                 // update ui(reserve btn disabled)
                 refetch();
-                navigate('/dashboard/my-bookings')
+                navigate('/dashboard/my-bookings');
             }
             catch (err) {
                 toast.error(err);

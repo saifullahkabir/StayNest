@@ -62,7 +62,7 @@ const RoomReservation = ({ room, refetch }) => {
         <Button
           disabled={room?.booked === true}
           onClick={() => setIsOpen(true)}
-          label={'Reserve'} />
+          label={ room?.booked === true? 'Booked' :'Reserve'} />
       </div>
       {/* Modal */}
       <BookingModal isOpen={isOpen} refetch={refetch} closeModal={closeModal} bookingInfo={{
