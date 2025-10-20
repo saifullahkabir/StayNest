@@ -8,12 +8,14 @@ import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-const CheckoutForm = ({ closeModal, bookingInfo }) => {
+const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
     const stripe = useStripe();
     const elements = useElements();
     const { user } = useAuth();
+    const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
     const [clientSecret, setClientSecret] = useState();
     const [cardError, setCardError] = useState('');
@@ -44,7 +46,7 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
             return data;
         },
         onSuccess: () => {
-            toast.success('Your payment is successfully!');
+            toast.success('Room Booked Successfully!');
             closeModal();
         }
 
@@ -118,6 +120,13 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
             try {
                 // 2. save payment info in bookings collection (db)
                 await mutateAsync(paymentInfo);
+
+                // 3. change room status to booked in db
+                await axiosSecure.patch(`/room/status/${bookingInfo?._id}`, { status: true });
+
+                // update ui(reserve btn disabled)
+                refetch();
+                navigate('/dashboard/my-bookings')
             }
             catch (err) {
                 toast.error(err);

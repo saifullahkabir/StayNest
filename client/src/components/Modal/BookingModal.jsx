@@ -14,7 +14,7 @@ import CheckoutForm from '../Form/CheckoutForm'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
+const BookingModal = ({ closeModal, isOpen, bookingInfo, refetch }) => {
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -80,10 +80,10 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
 
                                 <Elements stripe={stripePromise}>
                                     {/* checkout form */}
-                                    <CheckoutForm closeModal={closeModal} bookingInfo={bookingInfo} />
+                                    <CheckoutForm closeModal={closeModal} bookingInfo={bookingInfo} refetch={refetch} />
                                 </Elements>
 
-                               
+
                             </DialogPanel>
                         </TransitionChild>
                     </div>
@@ -97,6 +97,7 @@ BookingModal.propTypes = {
     bookingInfo: PropTypes.object,
     closeModal: PropTypes.func,
     isOpen: PropTypes.bool,
+    refetch: PropTypes.func,
 }
 
 export default BookingModal
