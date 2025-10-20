@@ -43,7 +43,8 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
             return data;
         },
         onSuccess: () => {
-            toast.success('Your payment is successfully!')
+            toast.success('Your payment is successfully!');
+            closeModal();
         }
 
     })
@@ -106,16 +107,18 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
             // 1. create payment info object 
             const paymentInfo = {
                 ...bookingInfo,
+                roomId: bookingInfo._id,
                 transactionId: paymentIntent.id,
                 date: new Date()
             }
+            delete paymentInfo._id;
             console.log(paymentInfo);
 
-            try { 
+            try {
                 // 2. save payment info in bookings collection (db)
                 await mutateAsync(paymentInfo);
             }
-            catch(err) {
+            catch (err) {
                 console.log(err);
             }
         }
