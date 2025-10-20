@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import useAuth from '../../hooks/useAuth';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 
 // eslint-disable-next-line react/prop-types
 const CheckoutForm = ({ closeModal, bookingInfo }) => {
@@ -33,6 +35,18 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
         setClientSecret(data.clientSecret);
 
     }
+
+    // save bookings data in db
+    const { mutateAsync } = useMutation({
+        mutationFn: async (paymentInfo) => {
+            const { data } = await axiosSecure.post(`/booking`, paymentInfo);
+            return data;
+        },
+        onSuccess: () => {
+            toast.success('Your payment is successfully!')
+        }
+
+    })
 
     const handleSubmit = async (event) => {
         // Block native form submission.
@@ -97,7 +111,13 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
             }
             console.log(paymentInfo);
 
-            // 2. 
+            try { 
+                // 2. save payment info in bookings collection (db)
+                await mutateAsync(paymentInfo);
+            }
+            catch(err) {
+                console.log(err);
+            }
         }
         setProcessing(false);
     };
