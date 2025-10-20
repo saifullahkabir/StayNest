@@ -229,8 +229,18 @@ async function run() {
     // save a booking data in db
     app.post('/booking', verifyToken, async (req, res) => {
       const bookingData = req.body;
+      // save room booking info
       const result = await bookingsCollection.insertOne(bookingData);
-      res.send(result);
+
+      // change room availability status
+      const roomId = bookingData?.roomId;
+      const query = {_id : new ObjectId(roomId)};
+      const updateDoc ={
+        $set: {booked: true}
+      }
+      const updateRoom = await roomsCollection.updateOne(query, updateDoc);
+
+      res.send({result, updateRoom});
     })
 
 
