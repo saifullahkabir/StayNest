@@ -8,7 +8,6 @@ import {
 } from '@headlessui/react'
 import { format } from 'date-fns'
 import { Fragment } from 'react'
-import useAuth from '../../hooks/useAuth'
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from '../Form/CheckoutForm'
@@ -16,7 +15,6 @@ import CheckoutForm from '../Form/CheckoutForm'
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
-    const { user } = useAuth();
 
     return (
         <Transition appear show={isOpen} as={Fragment}>
@@ -63,7 +61,7 @@ const BookingModal = ({ closeModal, isOpen, bookingInfo }) => {
                                 </div>
                                 <div className='mt-2'>
                                     <p className='text-sm text-gray-500'>
-                                        Guest: {user?.displayName}
+                                        Guest: {bookingInfo?.guest?.name}
                                     </p>
                                 </div>
                                 <div className='mt-2'>

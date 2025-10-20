@@ -40,6 +40,7 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
     const { mutateAsync } = useMutation({
         mutationFn: async (paymentInfo) => {
             const { data } = await axiosSecure.post(`/booking`, paymentInfo);
+            console.log(data);
             return data;
         },
         onSuccess: () => {
@@ -119,7 +120,7 @@ const CheckoutForm = ({ closeModal, bookingInfo }) => {
                 await mutateAsync(paymentInfo);
             }
             catch (err) {
-                console.log(err);
+                toast.error(err);
             }
         }
         setProcessing(false);

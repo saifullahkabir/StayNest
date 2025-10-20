@@ -234,13 +234,13 @@ async function run() {
 
       // change room availability status
       const roomId = bookingData?.roomId;
-      const query = {_id : new ObjectId(roomId)};
-      const updateDoc ={
-        $set: {booked: true}
+      const query = { _id: new ObjectId(roomId) };
+      const updateDoc = {
+        $set: { booked: true }
       }
       const updateRoom = await roomsCollection.updateOne(query, updateDoc);
-
-      res.send({result, updateRoom});
+      console.log(updateRoom);
+      res.send({ result, updateRoom });
     })
 
 
