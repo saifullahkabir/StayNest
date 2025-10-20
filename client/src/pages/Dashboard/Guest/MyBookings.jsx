@@ -1,6 +1,23 @@
 import { Helmet } from 'react-helmet-async'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
+import { useQuery } from '@tanstack/react-query';
+import useAuth from '../../../hooks/useAuth';
+import BookingDataRow from '../../../components/Dashboard/TableRows/BookingDataRow';
 
 const MyBookings = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+
+  // fetch bookings data for a guest
+
+  const { data: bookings = [], refetch } = useQuery({
+    queryKey: ['my-bookings', user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`/my-bookings/${user?.email}`)
+      return data;
+    }
+  })
+
   return (
     <>
       <Helmet>
@@ -52,7 +69,17 @@ const MyBookings = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>{/* Table Row Data */}</tbody>
+                <tbody>
+                  {/* Table Row Data */}
+                  {
+                    bookings.map(booking => <BookingDataRow
+                      key={booking._id}
+                      booking={booking}
+                      refetch={refetch}
+                    ></BookingDataRow>)
+                  }
+
+                </tbody>
               </table>
             </div>
           </div>
