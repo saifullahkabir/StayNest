@@ -3,6 +3,7 @@ import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import BookingDataRow from '../../../components/Dashboard/TableRows/BookingDataRow';
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 
 const MyBookings = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,13 +11,15 @@ const MyBookings = () => {
 
   // fetch bookings data for a guest
 
-  const { data: bookings = [], refetch } = useQuery({
+  const { data: bookings = [], isLoading, refetch } = useQuery({
     queryKey: ['my-bookings', user?.email],
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/my-bookings/${user?.email}`)
       return data;
     }
   })
+
+  if (isLoading) return <LoadingSpinner />
 
   return (
     <>

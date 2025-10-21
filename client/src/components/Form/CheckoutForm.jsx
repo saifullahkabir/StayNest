@@ -114,8 +114,10 @@ const CheckoutForm = ({ closeModal, bookingInfo, refetch }) => {
                 transactionId: paymentIntent.id,
                 date: new Date()
             }
+
+            // delete for room(paymentInfo) data
             delete paymentInfo._id;
-            console.log(paymentInfo);
+            delete paymentInfo.booked;
 
             try {
                 // 2. save payment info in bookings collection (db)
