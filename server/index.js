@@ -271,6 +271,15 @@ async function run() {
       res.send(result);
     })
 
+    // get all booking data for a host
+    app.get('/manage-bookings/:email', verifyToken, verifyHost, async (req, res) => {
+      const email = req.params.email;
+      const query = { 'host.email': email };
+      const result = await bookingsCollection.find(query).toArray();
+      res.send(result);
+    })
+
+
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     )
