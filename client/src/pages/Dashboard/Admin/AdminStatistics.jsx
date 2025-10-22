@@ -32,7 +32,7 @@ const AdminStatistics = () => {
                         >
                             <FaDollarSign className='w-6 h-6 text-white' />
                         </div>
-                        <div className='p-4 text-right'>
+                        <div className='p-4 text-right mt-4'>
                             <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
                                 Total Sales
                             </p>
@@ -48,7 +48,7 @@ const AdminStatistics = () => {
                         >
                             <FaUserAlt className='w-6 h-6 text-white' />
                         </div>
-                        <div className='p-4 text-right'>
+                        <div className='p-4 text-right mt-4'>
                             <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
                                 Total User
                             </p>
@@ -64,7 +64,7 @@ const AdminStatistics = () => {
                         >
                             <BsFillCartPlusFill className='w-6 h-6 text-white' />
                         </div>
-                        <div className='p-4 text-right'>
+                        <div className='p-4 text-right mt-4'>
                             <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
                                 Total Bookings
                             </p>
@@ -80,7 +80,7 @@ const AdminStatistics = () => {
                         >
                             <BsFillHouseDoorFill className='w-6 h-6 text-white' />
                         </div>
-                        <div className='p-4 text-right'>
+                        <div className='p-4 text-right mt-4'>
                             <p className='block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600'>
                                 Total Rooms
                             </p>
