@@ -338,6 +338,38 @@ async function run() {
       res.send({ totalRooms, totalBookings, totalPrice, chartData, hostSince: timestamp });
     })
 
+    // guest statistics
+    app.get('/guest-stat', verifyToken, async (req, res) => {
+      const email = req.user.email;
+      const bookingDetails = await bookingsCollection.find(
+        { 'guest.email': email },
+        {
+          projection: {
+            date: 1,
+            price: 1,
+          }
+        }
+      ).toArray();
+
+      const totalBookings = bookingDetails?.length;
+      const totalPrice = bookingDetails.reduce((sum, booking) => sum + booking.price, 0);
+      const { timestamp } = await usersCollection.findOne(
+        { email },
+        { projection: { timestamp: 1 } }
+      );
+
+      const chartData = bookingDetails.map(booking => {
+        const day = new Date(booking?.date).getDate();
+        const month = new Date(booking?.date).getMonth() + 1;
+        const data = [`${day}/${month}`, booking?.price];
+        return data;
+      });
+      chartData.unshift(['Day', 'Sales']);
+      // chartData.splice(0, 0, ['Days', 'Sales'])  // another one
+
+      res.send({ totalBookings, totalPrice, chartData, guestSince: timestamp });
+    })
+
 
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
