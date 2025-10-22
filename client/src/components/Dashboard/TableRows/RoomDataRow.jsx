@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { format } from 'date-fns'
 import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
+import UpdateRoomModal from '../../Modal/UpdateRoomModal'
 
 const RoomDataRow = ({ room, handleDelete }) => {
     let [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,7 @@ const RoomDataRow = ({ room, handleDelete }) => {
                     <span className='relative'>Update</span>
                 </span>
                 {/* Update Modal */}
+                <UpdateRoomModal />
             </td>
         </tr>
     )

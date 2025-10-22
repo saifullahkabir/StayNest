@@ -57,7 +57,7 @@ const RoomDetails = () => {
                   <div>Hosted by {room?.host?.name}</div>
 
                   <img
-                  referrerPolicy='no-referrer'
+                    referrerPolicy='no-referrer'
                     className='rounded-full w-[30px] h-[30px] object-cover'
                     alt='Avatar'
                     src={room?.host?.image}
@@ -91,7 +91,7 @@ const RoomDetails = () => {
 
             <div className='md:col-span-3 order-first md:order-last mb-10'>
               {/* RoomReservation */}
-              <RoomReservation room={room}  refetch={refetch}/>
+              <RoomReservation room={room} refetch={refetch} />
             </div>
           </div>
         </div>
