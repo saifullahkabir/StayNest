@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import LoadingChart from './LoadingChart';
+import noData from '../../../assets/images/no-data.png';
 
 // const data = [
 //     ['Day', 'Sales'],
@@ -22,14 +23,24 @@ const SalesLineChart = ({ data }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false),300);
+        const timer = setTimeout(() => setLoading(false), 300);
         return () => clearTimeout(timer);
     }, []);
 
-    if (!data || data.length === 0 || loading) return <LoadingChart />
+    if (loading) return <LoadingChart message={'Loading sales data...'} />
 
     return (
-        <Chart chartType='LineChart' width='100%' height="300px" data={data} options={options} />
+        <>
+            {
+                data.length > 1 ?
+                    <Chart chartType='LineChart' width='100%' height="300px" data={data} options={options} />
+                    :
+                    <div className='text-center my-auto py-[80px] lg:py-0'>
+                        <img className='w-14 h-14 mx-auto' src={noData} alt="Not available" />
+                        <p className='text-gray-600 font-medium'>Data is not available!</p>
+                    </div>
+            }
+        </>
     )
 }
 
