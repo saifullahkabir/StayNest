@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Button from '../Shared/Button/Button'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DateRange } from 'react-date-range';
 import { differenceInCalendarDays } from 'date-fns';
 import BookingModal from '../Modal/BookingModal';
@@ -16,6 +16,16 @@ const RoomReservation = ({ room, refetch }) => {
       key: 'selection'
     }
   ]);
+
+  useEffect(() => {
+    if (room?.from && room?.to) {
+      setState([{
+        startDate: new Date(room.from),
+        endDate: new Date(room.to),
+        key: 'selection'
+      }]);
+    }
+  }, [room]);
 
   const closeModal = () => {
     setIsOpen(false);
@@ -46,11 +56,7 @@ const RoomReservation = ({ room, refetch }) => {
           showDateDisplay={false}
           rangeColors={['#F6536D']}
           editableDateInputs={false}
-          onChange={() => setState([{
-            startDate: new Date(room.from),
-            endDate: new Date(room.to),
-            key: 'selection'
-          }])}
+          onChange={item => setState([item.selection])}
           moveRangeOnFirstSelection={false}
           ranges={state}
           minDate={new Date(room.from)}
@@ -62,7 +68,7 @@ const RoomReservation = ({ room, refetch }) => {
         <Button
           disabled={room?.booked === true}
           onClick={() => setIsOpen(true)}
-          label={ room?.booked === true? 'Booked' :'Reserve'} />
+          label={room?.booked === true ? 'Booked' : 'Reserve'} />
       </div>
       {/* Modal */}
       <BookingModal isOpen={isOpen} refetch={refetch} closeModal={closeModal} bookingInfo={{

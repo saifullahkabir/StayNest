@@ -16,7 +16,8 @@ const RoomDetails = () => {
     queryFn: async () => {
       const { data } = await axiosSecure.get(`/room/${id}`);
       return data;
-    }
+    },
+    
   });
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>

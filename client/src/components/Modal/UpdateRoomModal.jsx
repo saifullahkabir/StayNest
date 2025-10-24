@@ -17,11 +17,14 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
     const axiosSecure = useAxiosSecure();
     const [roomData, setRoomData] = useState(room);
     const [loading, setLoading] = useState(false);
+
     const [dates, setDates] = useState({
         startDate: new Date(room?.from),
         endDate: new Date(room?.to),
         key: 'selection'
     });
+
+
 
 
     // handle image update
@@ -71,7 +74,6 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
         console.log(updatedRoomData);
         try {
             await mutateAsync(updatedRoomData);
-
         }
         catch (err) {
             toast.error(err.message);
@@ -125,6 +127,7 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
                                         roomData={roomData}
                                         setRoomData={setRoomData}
                                         handleImage={handleImage}
+                                        loading={loading}
                                     />
                                 </div>
                                 <hr className='mt-8 ' />
