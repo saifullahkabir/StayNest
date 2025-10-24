@@ -11,6 +11,7 @@ import UpdateRoomForm from '../Form/UpdateRoomForm'
 import useAxiosSecure from '../../hooks/useAxiosSecure'
 import toast from 'react-hot-toast'
 import { imageUpload } from '../../api/utils'
+import { useMutation } from '@tanstack/react-query'
 
 const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
     const axiosSecure = useAxiosSecure();
@@ -30,23 +31,52 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
             const image_url = await imageUpload(image);
             console.log(image_url);
             setRoomData({ ...roomData, image: image_url });
+
         }
         catch (err) {
             toast.error(err.message);
+            setLoading(false);
         }
     }
 
     // Date range Handler
     const handleDates = item => {
         setDates(item.selection);
+        setRoomData({
+            ...roomData,
+            to: item.selection.endDate,
+            from: item.selection.startDate,
+        });
     }
+
+    const { mutateAsync } = useMutation({
+        mutationFn: async updatedRoomData => {
+            const { data } = await axiosSecure.put(`/room/update/${room?._id}`, updatedRoomData);
+            return data;
+        },
+        onSuccess: () => {
+            toast.success('Room data Updated!');
+            refetch();
+            setIsEditModalOpen(false);
+            setLoading(false);
+        }
+    })
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const updatedRoomData = Object.assign({}, roomData);
         delete updatedRoomData._id;
         console.log(updatedRoomData);
+        try {
+            await mutateAsync(updatedRoomData);
+
+        }
+        catch (err) {
+            toast.error(err.message);
+            setLoading(false);
+        }
     }
 
     return (
@@ -94,7 +124,6 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
                                         handleDates={handleDates}
                                         roomData={roomData}
                                         setRoomData={setRoomData}
-                                        loading={loading}
                                         handleImage={handleImage}
                                     />
                                 </div>
