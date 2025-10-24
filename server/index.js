@@ -165,6 +165,18 @@ async function run() {
       const query = { _id: new ObjectId(id) };
       const result = await roomsCollection.deleteOne(query);
       res.send(result);
+    });
+
+    // update a room data
+    app.put('/room/update/:id', verifyToken, verifyHost, async (req, res) => {
+      const id = req.params.id;
+      const roomData = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updateDoc = {
+        $set: {...roomData}
+      };
+      const result = await roomsCollection.updateOne(query, updateDoc);
+      res.send(result);
     })
 
     // save a user data in db 
@@ -368,7 +380,9 @@ async function run() {
       // chartData.splice(0, 0, ['Days', 'Sales'])  // another one
 
       res.send({ totalBookings, totalPrice, chartData, guestSince: timestamp });
-    })
+    });
+
+
 
 
     console.log(
