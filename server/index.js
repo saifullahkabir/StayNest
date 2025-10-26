@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const jwt = require('jsonwebtoken')
 const nodemailer = require("nodemailer");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+const {getGuestBookingTemplate, getHostBookingTemplate} = require('./templates/emailTemplates.js')
 
 const port = process.env.PORT || 8000;
 
@@ -286,64 +288,16 @@ async function run() {
 
       // send email to guest
       sendEmail(bookingData?.guest?.email, {
-        subject: 'Booking Confirmed! Thank You for Your Reservation.',
-        message: `
-  Hi ${bookingData?.guest?.name},
-
-  Great news! Your room booking has been successfully confirmed. 🏡  
-  Here are your booking details:
-
-  📍 Room Title: ${bookingData?.title}
-  🏕️ Category: ${bookingData?.category}
-  📅 Check-in Date: ${new Date(bookingData?.from).toLocaleDateString()}
-  📅 Check-out Date: ${new Date(bookingData?.to).toLocaleDateString()}
-  💰 Total Price: $${bookingData?.price}
-  🧍 Guests: ${bookingData?.guests}
-  🛏️ Bedrooms: ${bookingData?.bedrooms}
-  🛁 Bathrooms: ${bookingData?.bathrooms}
-
-  Host Details:
-  👤 ${bookingData?.host?.name}
-  📧 ${bookingData?.host?.email}
-
-  Transaction ID: ${bookingData?.transactionId}
-
-  Thank you for choosing our service!  
-  We’re excited to host you soon. 🌿
-
-  — The StayNest Team
-  `
+        subject: '🎉 Booking Confirmed! Thank You for Your Reservation.',
+        message: getGuestBookingTemplate(bookingData)
       });
 
       // send email to host
       sendEmail(bookingData?.host?.email, {
         subject: '🏡 New Booking Received!',
-        message: `
-  Hi ${bookingData?.host?.name},
+        message: getHostBookingTemplate(bookingData)
+      });
 
-  Great news! A guest has just booked your room "${bookingData?.title}". 🎉  
-  Here are the booking details:
-
-  👤 Guest Name: ${bookingData?.guest?.name}
-  📧 Guest Email: ${bookingData?.guest?.email}
-  
-  🏕️ Room Title: ${bookingData?.title}
-  📍 Category: ${bookingData?.category}
-  📅 Check-in Date: ${new Date(bookingData?.from).toLocaleDateString()}
-  📅 Check-out Date: ${new Date(bookingData?.to).toLocaleDateString()}
-  💰 Total Price: $${bookingData?.price}
-  🧍 Guests: ${bookingData?.guests}
-  🛏️ Bedrooms: ${bookingData?.bedrooms}
-  🛁 Bathrooms: ${bookingData?.bathrooms}
-
-  Transaction ID: ${bookingData?.transactionId}
-
-  Please prepare the room before the guest arrives to ensure a great experience.  
-  Thank you for hosting with LuxeHaven! 🌿
-
-  — The StayNest Team
-  `
-      })
 
       res.send(result);
     })
