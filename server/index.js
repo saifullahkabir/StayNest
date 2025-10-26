@@ -5,7 +5,7 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const jwt = require('jsonwebtoken')
-
+const nodemailer = require("nodemailer");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
 
 const port = process.env.PORT || 8000;
@@ -22,6 +22,46 @@ app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(cookieParser())
+
+
+// send email
+const sendEmail = async (emailAddress, emailData) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.TRANSPORTER_EMAIL,
+      pass: process.env.TRANSPORTER_PASS,
+    },
+  });
+
+  // Verify transporter
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log("Server is ready to take our messages");
+    }
+  });
+
+  const mailBody = {
+    from: `"StayNest" <${process.env.TRANSPORTER_EMAIL}>`,
+    to: emailAddress,
+    subject: emailData.subject,
+    html: emailData.message, // HTML body
+  }
+
+  transporter.sendMail(mailBody, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email Sent:' + info.response);
+    }
+
+  });
+}
 
 // Verify Token Middleware
 const verifyToken = async (req, res, next) => {
@@ -173,7 +213,7 @@ async function run() {
       const roomData = req.body;
       const query = { _id: new ObjectId(id) };
       const updateDoc = {
-        $set: {...roomData}
+        $set: { ...roomData }
       };
       const result = await roomsCollection.updateOne(query, updateDoc);
       res.send(result);
@@ -244,14 +284,67 @@ async function run() {
       // save room booking info
       const result = await bookingsCollection.insertOne(bookingData);
 
-      // change room availability status
-      // const roomId = bookingData?.roomId;
-      // const query = { _id: new ObjectId(roomId) };
-      // const updateDoc = {
-      //   $set: { booked: true }
-      // }
-      // const updateRoom = await roomsCollection.updateOne(query, updateDoc);
-      // console.log(updateRoom);
+      // send email to guest
+      sendEmail(bookingData?.guest?.email, {
+        subject: 'Booking Confirmed! Thank You for Your Reservation.',
+        message: `
+  Hi ${bookingData?.guest?.name},
+
+  Great news! Your room booking has been successfully confirmed. 🏡  
+  Here are your booking details:
+
+  📍 Room Title: ${bookingData?.title}
+  🏕️ Category: ${bookingData?.category}
+  📅 Check-in Date: ${new Date(bookingData?.from).toLocaleDateString()}
+  📅 Check-out Date: ${new Date(bookingData?.to).toLocaleDateString()}
+  💰 Total Price: $${bookingData?.price}
+  🧍 Guests: ${bookingData?.guests}
+  🛏️ Bedrooms: ${bookingData?.bedrooms}
+  🛁 Bathrooms: ${bookingData?.bathrooms}
+
+  Host Details:
+  👤 ${bookingData?.host?.name}
+  📧 ${bookingData?.host?.email}
+
+  Transaction ID: ${bookingData?.transactionId}
+
+  Thank you for choosing our service!  
+  We’re excited to host you soon. 🌿
+
+  — The StayNest Team
+  `
+      });
+
+      // send email to host
+      sendEmail(bookingData?.host?.email, {
+        subject: '🏡 New Booking Received!',
+        message: `
+  Hi ${bookingData?.host?.name},
+
+  Great news! A guest has just booked your room "${bookingData?.title}". 🎉  
+  Here are the booking details:
+
+  👤 Guest Name: ${bookingData?.guest?.name}
+  📧 Guest Email: ${bookingData?.guest?.email}
+  
+  🏕️ Room Title: ${bookingData?.title}
+  📍 Category: ${bookingData?.category}
+  📅 Check-in Date: ${new Date(bookingData?.from).toLocaleDateString()}
+  📅 Check-out Date: ${new Date(bookingData?.to).toLocaleDateString()}
+  💰 Total Price: $${bookingData?.price}
+  🧍 Guests: ${bookingData?.guests}
+  🛏️ Bedrooms: ${bookingData?.bedrooms}
+  🛁 Bathrooms: ${bookingData?.bathrooms}
+
+  Transaction ID: ${bookingData?.transactionId}
+
+  Please prepare the room before the guest arrives to ensure a great experience.  
+  Thank you for hosting with LuxeHaven! 🌿
+
+  — The StayNest Team
+  `
+      })
+
       res.send(result);
     })
 
