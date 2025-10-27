@@ -9,7 +9,7 @@ import useAuth from '../../../../hooks/useAuth'
 import { useMutation } from '@tanstack/react-query'
 import HostRequestModel from '../../../Modal/HostRequestModel'
 
-const GuestMenu = () => {
+const GuestMenu = ({handleToggle}) => {
   const [role] = useRole();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -59,6 +59,7 @@ const GuestMenu = () => {
         icon={BsFingerprint}
         label='My Bookings'
         address='my-bookings'
+        handleToggle={handleToggle}
       />
 
       {role === 'guest' && (<div

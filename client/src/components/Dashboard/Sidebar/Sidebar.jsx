@@ -19,7 +19,7 @@ const Sidebar = () => {
     const [isActive, setActive] = useState(true)
     const [role] = useRole();
     // const [toggle, setToggle] = useState(true);
-      const { isGuestView, toggleView } = useToggle();
+    const { isGuestView, toggleView } = useToggle();
 
     // Sidebar Responsive Handler
     const handleToggle = () => {
@@ -33,39 +33,49 @@ const Sidebar = () => {
     return (
         <>
             {/* Small Screen Navbar */}
-            <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
-                <div>
-                    <div className='block cursor-pointer p-4 font-bold'>
-                        <Link to='/'>
-                            <img
-                                // className='hidden md:block'
-                                src='https://i.ibb.co.com/cXF3xvYw/Adobe-Express-file.png'
-                                alt='logo'
-                                width='120'
-                                height='120'
-                            />
-                        </Link>
-                    </div>
-                </div>
+            {
+                isActive && (
+                    <div className='mb-12 md:mb-0'>
+                        <div className='fixed top-0 left-0 w-full z-20  bg-gray-50 shadow-md  text-gray-800 flex justify-between md:hidden'>
+                            <div>
+                                <div className='block cursor-pointer p-4 font-bold'>
+                                    <Link to='/'>
+                                        <img
+                                            // className='hidden md:block'
+                                            src='https://i.ibb.co.com/cXF3xvYw/Adobe-Express-file.png'
+                                            alt='logo'
+                                            width='130'
+                                            height='130'
+                                        />
+                                    </Link>
+                                </div>
+                            </div>
 
-                <button
-                    onClick={handleToggle}
-                    className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200 '
-                >
-                    {
-                        isActive ?
-                            (<VscThreeBars className='h-6 w-6' />)
-                            :
-                            (<HiOutlineX className='h-6 w-6 '
-                            />)
-                    }
-                </button>
-            </div>
+                            {
+                                isActive && <button
+                                    onClick={handleToggle}
+                                    className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200 '
+                                >
+                                    <VscThreeBars className='h-7 w-7' />
+                                </button>
+                            }
+                        </div>
+                    </div>
+                )
+            }
+            {/* Overlay (blur background when sidebar open) */}
+            {
+                !isActive && (
+                    <div onClick={handleToggle}
+                        className='fixed inset-0 bg-black/30  z-10 md:hidden transition-opacity duration-300'
+                    ></div>
+                )
+            }
 
             {/* Sidebar */}
             <div
-                className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 md:w-52 xl:w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${isActive && '-translate-x-full'
-                    }  md:translate-x-0  transition duration-200 ease-in-out`}
+                className={`z-20 fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-60 md:w-52 xl:w-64 space-y-6 px-2 py-4 h-screen transform ${isActive && '-translate-x-full'
+                    }  md:translate-x-0  transition duration-300 ease-in-out`}
             >
                 <div>
                     <div>
@@ -92,11 +102,15 @@ const Sidebar = () => {
                                 label='Statistics'
                                 address='/dashboard'
                                 icon={BsGraphUp}
+                                handleToggle={handleToggle}
                             ></MenuItem>
 
-                            {role === 'guest' && <GuestMenu />}
-                           {role === 'host' && (isGuestView ? <GuestMenu /> : <HostMenu />)}
-                            {role === 'admin' && <AdminMenu />}
+                            {role === 'guest' && <GuestMenu handleToggle={handleToggle} />}
+                            {role === 'host' && (isGuestView ?
+                                <GuestMenu handleToggle={handleToggle} />
+                                :
+                                <HostMenu handleToggle={handleToggle} />)}
+                            {role === 'admin' && <AdminMenu handleToggle={handleToggle}/>}
                         </nav>
                     </div>
                 </div>
@@ -109,6 +123,7 @@ const Sidebar = () => {
                         label='Profile'
                         address='/dashboard/profile'
                         icon={FcSettings}
+                        handleToggle={handleToggle}
                     ></MenuItem>
 
                     <button
