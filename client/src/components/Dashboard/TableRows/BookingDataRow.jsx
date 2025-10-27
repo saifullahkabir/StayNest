@@ -1,42 +1,8 @@
 import { format } from 'date-fns'
 import PropTypes from 'prop-types'
-import { useState } from 'react'
-import DeleteModal from '../../Modal/DeleteModal';
-import { useMutation } from '@tanstack/react-query';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import toast from 'react-hot-toast';
 
-const BookingDataRow = ({ booking, refetch }) => {
-    const [isOpen, setIsOpen] = useState(false);
-    const axiosSecure = useAxiosSecure();
-
-    const closeModal = () => {
-        setIsOpen(false);
-    }
-
-    const { mutateAsync } = useMutation({
-        mutationFn: async (id) => {
-            const { data } = await axiosSecure.delete(`/booking/${id}`);
-            return data;
-        },
-        onSuccess: async () => {
-            toast.success('Your Booking is Cancelled!');
-            refetch();
-
-            // change room booked status back to false
-            await axiosSecure.patch(`/room/status/${booking?.roomId}`, { status: false });
-
-        }
-    })
-
-    const handleDelete = async id => {
-        try {
-            await mutateAsync(id);
-        }
-        catch (err) {
-            toast.error(err.message);
-        }
-    }
+const BookingDataRow = ({ booking }) => {
+  
     return (
         <tr>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -60,6 +26,7 @@ const BookingDataRow = ({ booking, refetch }) => {
                     <div className='flex-shrink-0'>
                         <div className='block relative'>
                             <img
+                                referrerPolicy='no-referrer'
                                 alt='profile'
                                 src={booking?.guest?.image}
                                 className='mx-auto object-cover rounded h-10 w-15 '
@@ -87,21 +54,16 @@ const BookingDataRow = ({ booking, refetch }) => {
                 </p>
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+
                 <button
-                    onClick={() => setIsOpen(true)}
                     className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
                     <span
                         aria-hidden='true'
-                        className='absolute inset-0 bg-red-200 opacity-50 rounded-full'
+                        className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
                     ></span>
-                    <span className='relative'>Cancel</span>
+                    <span className='relative'>Success</span>
                 </button>
-                {/* Delete modal */}
-                <DeleteModal
-                    isOpen={isOpen}
-                    closeModal={closeModal}
-                    handleDelete={handleDelete}
-                    id={booking?._id} />
+
             </td>
         </tr>
     )
