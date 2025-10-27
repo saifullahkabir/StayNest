@@ -3,18 +3,33 @@ import AdminStatistics from "../Admin/AdminStatistics";
 import GuestStatistics from "../Guest/GuestStatistics";
 import HostStatistics from "../Host/HostStatistics";
 import { useToggle } from "../../../context/ToggleContext";
+import { Helmet } from "react-helmet-async";
 
 const Statistics = () => {
-    const [role] = useRole();
-    const { isGuestView } = useToggle();
+  const [role] = useRole();
+  const { isGuestView } = useToggle();
 
-    if (role === 'admin') return <AdminStatistics />;
-    if (role === 'host') {
-        return isGuestView ? <GuestStatistics /> : <HostStatistics />;
-    }
-    if (role === 'guest') return <GuestStatistics />;
+  // Default title
+  let pageTitle = "Dashboard";
 
-    return null;
+  if (role === "admin") pageTitle = "Admin Statistics | Dashboard";
+  else if (role === "host")
+    pageTitle = isGuestView
+      ? "Guest Statistics | Dashboard"
+      : "Host Statistics | Dashboard";
+  else if (role === "guest") pageTitle = "Guest Statistics | Dashboard";
+
+  return (
+    <>
+      <Helmet>
+        <title>{pageTitle}</title>
+      </Helmet>
+
+      {role === "admin" && <AdminStatistics />}
+      {role === "host" && (isGuestView ? <GuestStatistics /> : <HostStatistics />)}
+      {role === "guest" && <GuestStatistics />}
+    </>
+  );
 };
 
 export default Statistics;

@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken')
 const nodemailer = require("nodemailer");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-const {getGuestBookingTemplate, getHostBookingTemplate} = require('./templates/emailTemplates.js')
+const { getGuestBookingTemplate, getHostBookingTemplate } = require('./templates/emailTemplates.js')
 
 const port = process.env.PORT || 8000;
 
@@ -16,7 +16,7 @@ const port = process.env.PORT || 8000;
 
 // middleware
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://staynest-c7b88.web.app'],
+  origin: ['http://localhost:5173', 'http://localhost:5174', 'https://staynest-c7b88.web.app', 'https://client-topaz-pi.vercel.app'],
   credentials: true,
   optionSuccessStatus: 200,
 }
