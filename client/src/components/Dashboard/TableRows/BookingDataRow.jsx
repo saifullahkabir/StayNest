@@ -1,12 +1,13 @@
 import { format } from 'date-fns'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const BookingDataRow = ({ booking }) => {
     return (
         <tr>
             {/* Room Image & Title */}
             <td className="px-3 py-4 border-b border-gray-200 bg-white text-sm max-w-[250px] md:max-w-[300px]">
-                <div className="flex flex-col md:flex-row items-center gap-2 text-center md:text-left">
+                <Link to={`/room/${booking?.roomId}`} className="flex flex-col md:flex-row items-center gap-2 text-center md:text-left hover:bg-gray-100 p-1 rounded transition">
                     <img
                         alt="room"
                         src={booking?.image}
@@ -18,7 +19,7 @@ const BookingDataRow = ({ booking }) => {
                     >
                         {booking?.title}
                     </p>
-                </div>
+                </Link>
             </td>
 
             {/* Guest Info */}

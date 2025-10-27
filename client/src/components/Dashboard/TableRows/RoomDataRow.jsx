@@ -13,11 +13,11 @@ const RoomDataRow = ({ room, handleDelete, refetch }) => {
     }
     return (
         <tr>
-            <td className='px-5 py-5 border-b border-gray-200 bg-white'>
+            <td className='px-2 xl:px-5 py-2 xl:py-5 border-b border-gray-200 bg-white'>
                 <img
                     alt='profile'
                     src={room?.image}
-                    className='h-[40px] xl:h-[50px] w-[50px] xl:w-[70px] object-cover object-center rounded'
+                    className='h-[50px]  w-full xl:w-[70px] object-cover object-center rounded'
                 />
             </td>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -39,7 +39,7 @@ const RoomDataRow = ({ room, handleDelete, refetch }) => {
                     {format(new Date(room?.to), 'P')}
                 </p>
             </td>
-            <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+            <td className='px-2 xl:px-5 py-2 xl:py-5 border-b border-gray-200 bg-white text-sm'>
                 <button onClick={() => setIsOpen(true)} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
                     <span
                         aria-hidden='true'
@@ -57,7 +57,7 @@ const RoomDataRow = ({ room, handleDelete, refetch }) => {
 
 
             </td>
-            <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+            <td className='px-2 xl:px-5 py-2 xl:py-5 border-b border-gray-200 bg-white text-sm'>
                 <button
                     onClick={() => setIsEditModalOpen(true)}
                     className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'>
