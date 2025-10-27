@@ -1,6 +1,6 @@
 # StayNest
 
-- [Live Site](https://client-topaz-pi.vercel.app)
+- [Live Site](https://staynest-c7b88.web.app)
 
 
 ### Packages and api docs used in this project:
