@@ -85,7 +85,7 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog
                 as='div'
-                className='relative z-10'
+                className='relative z-30'
                 onClose={() => setIsEditModalOpen(false)}
             >
                 <TransitionChild
@@ -111,7 +111,7 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
                             leaveFrom='opacity-100 scale-100'
                             leaveTo='opacity-0 scale-95'
                         >
-                            <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                            <DialogPanel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-3 text-left align-middle shadow-xl transition-all'>
                                 <DialogTitle
                                     as='h3'
                                     className='text-lg font-medium text-center leading-6 text-gray-900'
@@ -134,7 +134,7 @@ const UpdateRoomModal = ({ setIsEditModalOpen, isOpen, room, refetch }) => {
                                 <div className='mt-2 '>
                                     <button
                                         type='button'
-                                        className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
+                                        className='inline-flex justify-center rounded-md border border-transparent bg-red-100 ml-2 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2'
                                         onClick={() => setIsEditModalOpen(false)}
                                     >
                                         Cancel

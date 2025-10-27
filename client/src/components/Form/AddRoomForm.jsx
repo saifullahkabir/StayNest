@@ -5,7 +5,7 @@ import { DateRange } from 'react-date-range';
 const AddRoomForm = ({ dates, handleDates, handleAddRoom, imagePreview, imageText, handleImage, loading }) => {
 
     return (
-        <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 py-4 px-2 md:py-6'>
+        <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50 py-4 px-2 md:py-6 my-4 md:my-0'>
             <form onSubmit={handleAddRoom}>
                 <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
                     <div className='space-y-6'>

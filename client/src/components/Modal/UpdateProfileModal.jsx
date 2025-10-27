@@ -55,7 +55,7 @@ const UpdateProfileModal = () => {
             <dialog id="update_profile_modal" className="modal">
                 <div className="modal-box max-w-md xl:max-w-lg md:ml-52 xl:ml-64">
                     <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                        <button className="btn btn-md btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
                     <div className='space-y-4'>
                         <form
