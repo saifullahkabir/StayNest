@@ -322,14 +322,6 @@ async function run() {
       res.send(result);
     })
 
-    // cancel a booking data in db
-    app.delete('/booking/:id', verifyToken, async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: new ObjectId(id) };
-      const result = await bookingsCollection.deleteOne(query);
-      res.send(result);
-    })
-
     // get all booking data for a host
     app.get('/manage-bookings/:email', verifyToken, verifyHost, async (req, res) => {
       const email = req.params.email;
