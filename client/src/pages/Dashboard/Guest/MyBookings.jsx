@@ -4,10 +4,19 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import BookingDataRow from '../../../components/Dashboard/TableRows/BookingDataRow';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { useEffect } from "react";
 
 const MyBookings = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+
+  useEffect(() => {
+    AOS.init({
+      once: true,     // only animate once
+    });
+  }, []);
 
   // fetch bookings data for a guest
 
@@ -27,7 +36,11 @@ const MyBookings = () => {
         <title>My Bookings</title>
       </Helmet>
 
-      <div className='container mx-auto md:px-4 xl::px-8'>
+      <div
+        data-aos="fade-up"
+        data-aos-easing="linear"
+        data-aos-duration="500"
+        className='container mx-auto md:px-4 xl::px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 xl:py-4 overflow-x-auto'>
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
@@ -72,7 +85,8 @@ const MyBookings = () => {
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody
+                >
                   {/* Table Row Data */}
                   {
                     bookings.map(booking => <BookingDataRow
