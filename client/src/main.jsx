@@ -16,11 +16,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <HelmetProvider>
     <ToggleProvider>
       <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-        <Toaster />
-      </AuthProvider>
-    </QueryClientProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+          <Toaster />
+        </AuthProvider>
+      </QueryClientProvider>
     </ToggleProvider>
   </HelmetProvider>
 )

@@ -2,12 +2,14 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Dashboard/Sidebar/Sidebar";
 
 import useAuth from "../hooks/useAuth";
+import ScrollToTop from "../components/Shared/ScrollToTop";
 
 const DashboardLayout = () => {
-    const {loading} = useAuth();
-    if(loading)  return ;
+    const { loading } = useAuth();
+    if (loading) return;
     return (
         <div className="relative min-h-screen md:flex">
+            <ScrollToTop />
             {/* Sidebar */}
             <div>
                 <Sidebar></Sidebar>
