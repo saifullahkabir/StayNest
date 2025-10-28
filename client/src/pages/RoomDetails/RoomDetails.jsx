@@ -17,7 +17,6 @@ const RoomDetails = () => {
       const { data } = await axiosSecure.get(`/room/${id}`);
       return data;
     },
-    
   });
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>
@@ -27,7 +26,8 @@ const RoomDetails = () => {
         <title>{room?.title}</title>
       </Helmet>
       {room && (
-        <div className='max-w-screen-lg mx-auto'>
+        <div
+          className='max-w-screen-lg mx-auto'>
           {/* Header */}
           <div className='flex flex-col gap-6'>
             <div>

@@ -23,14 +23,14 @@ const Rooms = () => {
   });
 
   // skeleton count dynamically based on cached rooms or default 6
-  const skeletonCount = rooms?.length > 0 ? rooms.length : 6;
+  const skeletonCount = rooms?.length > 0 ? rooms.length : 12;
 
   return (
     <Container>
       {isLoading ? (
         // Skeletons shown during loading
         <div className='pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8'>
-          {[...Array(skeletonCount)].map((_, i) => (
+          {Array.from({ length: skeletonCount }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}
         </div>

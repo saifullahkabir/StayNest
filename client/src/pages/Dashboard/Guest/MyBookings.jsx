@@ -4,22 +4,12 @@ import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import BookingDataRow from '../../../components/Dashboard/TableRows/BookingDataRow';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 const MyBookings = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  useEffect(() => {
-    AOS.init({
-      once: true,     // only animate once
-    });
-  }, []);
-
   // fetch bookings data for a guest
-
   const { data: bookings = [], isLoading, refetch } = useQuery({
     queryKey: ['my-bookings', user?.email],
     queryFn: async () => {

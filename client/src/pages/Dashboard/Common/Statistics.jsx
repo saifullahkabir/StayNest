@@ -4,20 +4,10 @@ import GuestStatistics from "../Guest/GuestStatistics";
 import HostStatistics from "../Host/HostStatistics";
 import { useToggle } from "../../../context/ToggleContext";
 import { Helmet } from "react-helmet-async";
-import AOS from "aos";
-import "aos/dist/aos.css";
-import { useEffect } from "react";
 
 const Statistics = () => {
   const [role] = useRole();
   const { isGuestView } = useToggle();
-
-  useEffect(() => {
-    AOS.init({
-      once: true,     // only animate once
-    });
-  }, []);
-
 
   // Default title
   let pageTitle = "Dashboard";
